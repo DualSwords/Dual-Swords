@@ -1,28 +1,930 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+//Below are my includes and namespaces
 
-# Precompiled Headers
-*.gch
-*.pch
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <ctime>
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+using namespace std;
 
-# Fortran module files
-*.mod
+//Below are the variables that I created for this program
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+int shotgunBullet = 10;
+int pistolBullet = 40;
+int food = 100;
+int myLife = 100;
+int lives = 3;
+int impLife;
+int bossLife;
+int money;
+int enemyType;
+int spoils;
+int damage;
+int quantity;
 
-# Executables
-*.exe
-*.out
-*.app
+// Below are the strings that I created for this program
+
+string answer;
+
+// Below are my booleans
+
+bool broadsword = false;
+bool shield = false;
+bool knife = false;
+bool shotgunUpgrade = false;
+bool pistolUpgrade = false;
+bool broadswordUpgrade = false;
+bool shieldUpgrade = false;
+bool knifeUpgrade = false;
+
+// Below are my functions, or as I like to call them, subfunctions
+
+void smackStick()
+{
+    srand(time(NULL));                                          
+    int damageStick = rand() % 80 + 50;
+    
+    if (enemyType == 10)
+    {
+        bossLife -= damageStick;
+        cout << "You have successfully bludgeoned the boss!" << 
+    }
+    
+    if (enemyType != 10)
+    {
+        impLife -= damageStick;
+    }
+    
+void shootShotgun()
+{
+    shotgunBullet -= 1;
+    shotgun:
+    srand(time(NULL));                                          
+    int damageShotgun = rand() % 25 + 15;
+    
+    if (shotgunUpgrade == true)
+    {
+        damageShotgun *= 2;
+    }
+    
+    if (enemyType == 10)
+    {
+        bossLife -= damageShotgun;
+        cout << "The bosses health is now at " << bossLife << "." << endl;
+    }
+    
+    else if (enemyType != 10)
+    {
+        impLife -= damageShotgun;
+        cout << "The imps health is now at " << impLife << "." << endl;
+    }
+    
+    else
+    {
+        cout << "There has been an error." << endl;
+        goto shotgun;
+    }
+}
+
+void shootPistol()
+{
+    pistolBullet -=1;
+    pistol:
+    srand(time(NULL));                                          
+    int damagePistol = rand() % 15 + 5;
+    
+    if (pistolUpgrade == true)
+    {
+        damagePistol *= 2;
+    }
+    
+    if (enemyType == 10)
+    {
+        bossLife -= damagePistol;
+        cout << "The bosses health is now at " << bossLife << "." << endl;
+    }
+    
+    else if (enemyType != 10)
+    {
+        impLife -= damagePistol;
+        cout << "The imps health is now at " << impLife << "." << endl;
+    }
+    
+    else 
+    {
+        cout << "There has been an error." << endl;
+        goto pistol;
+    }
+}
+
+void broadswordSwing()
+{
+    broadsword:
+    srand(time(NULL));                                          
+    int damageBroadsword = rand() % 50 + 20;
+    
+    if (broadswordUpgrade == true)
+    {
+        damageBroadsword *= 2;
+    }
+    
+    if (enemyType == 10)
+    {
+        bossLife -= damageBroadsword;
+        cout << "The bosses health is now at " << bossLife << "." << endl;
+    }
+    
+    else if (enemyType != 10)
+    {
+        impLife -= damageBroadsword;
+        cout << "The imps health is now at " << impLife << "." << endl;
+    }
+    
+    else
+    {
+        cout << "There has been an error." << endl;
+        goto broadsword;
+    }
+}
+
+void knifeStab()
+{
+    knife:
+    srand(time(NULL));                                          
+    int damageKnife = rand() % 20 + 20;
+    
+    if (knifeUpgrade == true)
+    {
+        damageKnife *= 2;
+    }
+    
+    if (enemyType == 10)
+    {
+        bossLife -= damageKnife;
+        cout << "The bosses health is now at " << bossLife << "." << endl;
+    }
+    
+    else if (enemyType != 10)
+    {
+        impLife -= damageKnife;
+        cout << "The imps health is now at " << impLife << "." << endl;
+    }
+    
+    else
+    {
+        cout << "There has been an error." << endl;
+        goto knife;
+    }
+    
+    
+}
+
+void armor()
+{
+    if(shield == true)
+    {
+        damage /= 4;
+    }
+    
+    if(shieldUpgrade == true)
+    {
+        damage /= 2;
+    }
+}
+
+void bossAttack()
+{
+
+    cout << "It is now the bosses turn to attack!" << endl;
+    cout << "Accept?" << endl;
+    cin >> answer;
+    srand(time(NULL));                                          
+    int damage = rand() % 30 + 10;
+    armor();
+    
+    if (answer != " ")
+    {
+       myLife -= damage;
+       cout << "Your health has been reduced to " << myLife << endl;
+    }
+}
+
+void impAttack()
+{
+    cout << "It is now the imps turn to attack!" << endl;
+    cout << "Accept?" << endl;
+    cin >> answer;
+    srand(time(NULL));                                          
+    int damage = rand() % 10 + 1;
+    armor();
+    myLife -= damage;
+    
+    
+    if (answer != " ")
+    {
+       if (damage == 0)
+       {
+           cout << "The imp missed." << endl;
+       }
+       
+       else 
+       {
+           cout << "Your health has been reduced to " << myLife << endl;
+       }
+    }
+}
+
+void chooseWeapon()
+{
+    if (!broadsword && !knife)
+    {
+        cout << "Will you use your shotgun or your pistol?" << endl;
+        cout << "Your shotgun has " << shotgunBullet << " bullets left" << endl;
+        cout << "Your pistol has " << pistolBullet << " bullets left" << endl;
+        weapon_1:
+        cin >> answer;
+        
+        if(answer != "shotgun" && answer != "pistol")
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_1;
+        }
+    
+        else if (answer == "shotgun")
+        {
+            shootShotgun();
+        }
+    
+        else if (answer == "pistol")
+        {
+            shootPistol();
+        }
+    
+        else
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+        }
+    }
+    
+    else if (broadsword && !knife)
+    {
+        cout << "Will you use your shotgun, your sword, or your pistol?" << endl;
+        cout << "Your shotgun has " << shotgunBullet << " bullets left" << endl;
+        cout << "Your pistol has " << pistolBullet << " bullets left" << endl;
+        weapon_2:
+        cin >> answer;
+        
+        if(answer != "shotgun" && answer != "pistol" && answer != "sword")
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_1;
+        }
+    
+        else if (answer == "shotgun")
+        {
+            shootShotgun();
+        }
+    
+        else if (answer == "pistol")
+        {
+            shootPistol();
+        }
+        
+        else if (answer == "sword")
+        {
+            broadswordSwing();
+        }
+    
+        else
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_2;
+        }
+    }
+    
+    else if (!broadsword && knife)
+    {
+        cout << "Will you use your shotgun, your knife, or your pistol?" << endl;
+        cout << "Your shotgun has " << shotgunBullet << " bullets left" << endl;
+        cout << "Your pistol has " << pistolBullet << " bullets left" << endl;
+        weapon_3:
+        cin >> answer;
+        
+        if(answer != "shotgun" && answer != "pistol" && answer != "knife")
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_1;
+        }
+    
+        else if (answer == "shotgun")
+        {
+            shootShotgun();
+        }
+    
+        else if (answer == "pistol")
+        {
+            shootPistol();
+        }
+        
+        else if (answer == "knife")
+        {
+            knifeStab();
+        }
+    
+        else
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_3;
+        }
+    }
+    
+    else if (broadsword && knife)
+    {
+        cout << "Will you use your shotgun, your knife, your sword, or your pistol?" << endl;
+        cout << "Your shotgun has " << shotgunBullet << " bullets left" << endl;
+        cout << "Your pistol has " << pistolBullet << " bullets left" << endl;
+        weapon_4:
+        cin >> answer;
+        
+        if(answer != "shotgun" && answer != "pistol" && answer != "knife" && answer != "sword")
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_4;
+        }
+    
+        else if (answer == "shotgun")
+        {
+            shootShotgun();
+        }
+    
+        else if (answer == "pistol")
+        {
+            shootPistol();
+        }
+        
+        else if (answer == "knife")
+        {
+            knifeStab();
+        }
+        
+        else if (answer == "sword")
+        {
+            broadswordSwing();
+        }
+    
+        else
+        {
+            cout << "That is not a valid weapon. Please try again." << endl;
+            goto weapon_4;
+        }
+    }
+} 
+
+void runAway()
+{
+    bossLife = -1289;
+    impLife = -1289;
+    food -= 10;
+    cout << "You lost 10 food in the scuffle." << endl;
+    
+}
+
+void eat()
+{
+    food -= 20;
+    myLife += 50;
+    cout << "Your health is now at " << myLife << " health, and you have " << food << " food left." << endl;
+}
+
+void visitShop()
+{
+    
+    cout << "Here, you can buy bullets, food, weapon upgrades, or new weapons." << endl;
+    cout << "To go to the bullet shop, the command is 'bullet'." << endl;
+    cout << "To go to the upgrade smith, the command is 'upgrade'" << endl;
+    cout << "To go to the arms depot, the command is 'weapons'" << endl;
+    cout << "To exit to main menu, the command is is 'main'." << endl;
+    main_shop:
+    cin >> answer;
+    
+    if (answer != "bullet" && answer != "weapon" && answer != "upgrade" && answer != "food" && answer != "main")
+    {
+        cout << "That is an invalid command. Please press one of the ones specified." << endl;
+        goto main_shop;
+    }
+    
+    if (answer == "bullet")
+    {
+        cout << "Shotgun bullets are 10 bullets for 50 gold coins." << endl;
+        cout << "Pistol bullets are 40 bullets for 75 gold coins." << endl;
+        cout << "To buy shotgun bullets, the command is 'shotgun'" << endl;
+        cout << "To buy pistol bullets, the command is 'pistol'" << endl;
+        bullet_shop:
+        cin >> answer;
+            
+        if (answer != "pistol" && answer != "shotgun")
+        {
+            cout << "That is an invalid operation. Please try again." << endl;
+            goto bullet_shop;
+        }
+        
+        if (answer == "shotgun")
+        {
+            shotgun_bullet_shop:
+            cout << "How many bullets would you like to buy? You can buy 10, 20, or 30 bullets at a time." << endl;
+            cin >> quantity;
+            
+            if (quantity != 10 && quantity != 20 && quantity != 30)
+            {
+                cout << "That is an invalid number. Please buy only 10, 20, or 30 bullets." << endl;
+                goto shotgun_bullet_shop;
+            }
+            
+            else if (quantity == 10)
+            {
+                shotgunBullet += 10;
+                money -= 50;
+                cout << "You now have " << shotgunBullet << " shotgun bullets, and " << money << " gold coins." << endl;
+                goto shotgun_bullet_shop;
+            }
+            
+            else if (quantity == 20)
+            {
+                shotgunBullet += 20;
+                money -= 100;
+                cout << "You now have " << shotgunBullet << " shotgun bullets, and " << money << " gold coins." << endl;
+                goto shotgun_bullet_shop;
+            }
+            
+            else if (quantity == 30)
+            {
+                shotgunBullet += 30;
+                money -= 150;
+                cout << "You now have " << shotgunBullet << " shotgun bullets, and " << money << " gold coins." << endl;
+                goto shotgun_bullet_shop;
+            }
+            
+            else
+            {
+                cout << "That is an invalid number. Please buy only 10, 20, or 30 bullets." << endl;
+                goto shotgun_bullet_shop;
+            }
+        }
+        
+        if (answer == "pistol")
+        {
+            pistol_bullet_shop:
+            cout << "How many bullets would you like to buy? You can buy 40, 80, or 120 bullets at a time." << endl;
+            cin >> quantity;
+            
+            if (quantity != 40 && quantity != 80 && quantity != 120)
+            {
+                cout << "That is an invalid number. Please buy only 40, 80, or 120 bullets." << endl;
+                goto pistol_bullet_shop;
+            }
+            
+            else if (quantity == 40)
+            {
+                pistolBullet += 40;
+                money -= 75;
+                cout << "You now have " << pistolBullet << " pistol bullets, and " << money << " gold coins." << endl;
+                goto pistol_bullet_shop;
+            }
+            
+            else if (quantity == 80)
+            {
+                shotgunBullet += 80;
+                money -= 150;
+                cout << "You now have " << pistolBullet << " pistol bullets, and " << money << " gold coins." << endl;
+                goto pistol_bullet_shop;
+            }
+            
+            else if (quantity == 120)
+            {
+                pistolBullet += 120;
+                money -= 225;
+                cout << "You now have " << pistolBullet << " pistol bullets, and " << money << " gold coins." << endl;
+                goto pistol_bullet_shop;
+            }
+            
+            else
+            {
+                cout << "That is an invalid number. Please buy only 40, 80, or 120 bullets." << endl;
+                goto pistol_bullet_shop;
+            }
+        }
+    }
+    
+    if (answer == "food")
+    {
+        food_shop:
+        cout << "How much would you like to buy? You can buy 20, 40, or 60 bullets at a time." << endl;
+        cout << "20 food costs 50 gold coins." << endl;
+        cin >> quantity;
+            
+        if (quantity != 20 && quantity != 40 && quantity != 60)
+        {
+            cout << "That is an invalid number. Please buy only 20, 40, or 60 bullets." << endl;
+            goto food_shop;
+        }
+            
+        else if (quantity == 20)
+        {
+            food += 20;
+            money -= 50;
+            cout << "You now have " << food << " food, and " << money << " gold coins." << endl;
+            goto food_shop;
+        }
+            
+        else if (quantity == 40)
+        {
+            food += 40;
+            money -= 100;
+            cout << "You now have " << food << " food, and " << money << " gold coins." << endl;
+            goto food_shop;
+        }
+            
+        else if (quantity == 60)
+        {
+            shotgunBullet += 60;
+            money -= 150;
+            cout << "You now have " << food << " food, and " << money << " gold coins." << endl;
+            goto food_shop;
+        }
+            
+        else
+        {
+            cout << "That is an invalid number. Please buy only 20, 40, or 60 bullets." << endl;
+            goto food_shop;
+        }
+    }
+    
+    if (answer == "upgrade")
+    {
+        upgrade_shop:
+        if (!shield && !broadsword && !knife && !shotgunUpgrade && !pistolUpgrade)
+        {
+            cout << "Which upgrades would you like to buy?" << endl;
+            cout << "There is a shotgun upgrade for 2000 gold coins, and a pistol upgrade for 1500 gold coins." << endl;
+            cout << "For shotgun, type shotgun. For pistol, type pistol." << endl;
+            cin >> answer;
+            
+            if (answer != "pistol" && answer != "shotgun" && answer != "main")
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+            
+            if (answer == "pistol")
+            {
+                pistolUpgrade = true;
+                money -= 1500;
+                cout << "You now have an upgraded pistol! It will do twice as much damage! You also have " << money << " gold coins." << endl;
+                goto upgrade_shop;
+            }
+            
+            else if (answer == "shotgun")
+            {
+                shotgunUpgrade = true;
+                money -= 2000;
+                cout << "You now have an upgraded shotgun! It will do twice as much damage! You also have " << money << " gold coins." << endl;
+                goto upgrade_shop;
+            }
+            
+            else if (answer == "main")
+            {
+            goto main_shop;
+            }
+            
+            else
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        if (!shield && !broadsword && !knife && !pistolUpgrade && shotgunUpgrade)
+        {
+            cout << "Which upgrades would you like to buy?" << endl;
+            cout << "There is a pistol upgrade for 1500 gold coins." << endl;
+            cout << "For pistol, type pistol." << endl;
+            cin >> answer;
+            
+            if (answer != "pistol" && answer != "main")
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+            
+            if (answer == "pistol")
+            {
+                pistolUpgrade = true;
+                money -= 1500;
+                cout << "You now have an upgraded pistol! It will do twice as much damage! You also have " << money << " gold coins." << endl;
+                goto upgrade_shop;
+            }
+            
+            else if (answer == "main")
+            {
+            goto main_shop;
+            }
+            
+            else
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        if (!shield && !broadsword && !knife && !shotgunUpgrade && pistolUpgrade)
+        {
+            cout << "Which upgrades would you like to buy?" << endl;
+            cout << "There is a shotgun upgrade for 2000 gold coins." << endl;
+            cout << "For shotgun, type shotgun." << endl;
+            cin >> answer;
+            
+            if (answer != "shotgun" && answer != "main")
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+            
+            if (answer == "shotgun")
+            {
+                shotgunUpgrade = true;
+                money -= 2000;
+                cout << "You now have an upgraded shotgun! It will do twice as much damage! You also have " << money << " gold coins." << endl;
+                goto upgrade_shop;
+            }
+            
+            else if (answer == "main")
+            {
+            goto main_shop;
+            }
+            
+            else
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        if (shield && !broadsword && !knife && !shotgunUpgrade && !pistolUpgrade)
+        {
+            cout << "Which upgrades would you like to buy?" << endl;
+            cout << "There is a shield upgrade for 2000 gold coins." << endl;
+            cout << "For shotgun, type shotgun." << endl;
+            cin >> answer;
+            
+            if (answer != "shotgun" && answer != "main")
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+            
+            if (answer == "shield")
+            {
+                shieldUpgrade = true;
+                money -= 5000;
+                cout << "You now have an upgraded shield! It will block twice as much damage! You also have " << money << " gold coins." << endl;
+                goto upgrade_shop;
+            }
+            
+            else if (answer == "main")
+            {
+            goto main_shop;
+            }
+            
+            else
+            {
+                cout << "That is an invalid command." << endl;
+                goto upgrade_shop;
+            }
+    }
+}
+
+    if (answer == "weapon")
+    {
+        if (!shield && !knife && !broadsword)
+        cout << "There are three different things you can buy." << endl;
+    }
+}
+        
+void myTurn()
+{
+    if (money <= 500)
+    {
+        cout << "It is your turn. " << endl;
+        cout << "Commands are fight, eat, and run." << endl;
+        goto_1:
+        cin >> answer;
+    
+        if(answer != "fight" && answer != "eat" && answer != "run" && answer != "gold")
+        {
+            cout << "That is not a valid action. Please try again." << endl;
+            goto goto_1;
+        }
+        
+            if (answer == "fight")
+            {
+                chooseWeapon();
+            }
+            
+            else if (answer == "eat")
+            {
+                eat();
+            }
+            
+            else if (answer == "run")
+            {
+                runAway();
+            }
+            
+            else 
+            {
+                cout << "That is not a valid action. Please try again." << endl;
+                goto goto_1;
+            }
+    }
+    
+    else if (money >= 500)
+    {
+        cout << "It is your turn. " << endl;
+        cout << "Commands are fight, eat, shop, and run." << endl;
+        goto_2:
+        cin >> answer;
+    
+        if(answer != "fight" && answer != "eat" && answer != "run" && answer != "gold" && answer != "shop")
+        cout << "That is not a valid action. Please try again." << endl;
+        goto goto_2;
+        
+            if (answer == "fight")
+            {
+                chooseWeapon();
+            }
+            
+            else if (answer == "eat")
+            {
+                eat();
+            }
+            
+            else if (answer == "run")
+            {
+                runAway();
+            }
+            
+            else if (answer == "gold")
+            {
+                cout << "You have " << money << " gold coins." << endl;
+            }
+            
+            else if (answer == "shop")
+            {
+                visitShop();
+            }
+            
+            else 
+            {
+                cout << "That is not a valid action. Please try again." << endl;
+                goto goto_2;
+            }
+        }
+    }   
+
+void spoilsOfWar()
+{
+    srand(time(NULL));                                          
+    int spoils = rand() % 5 + 1;
+        
+    switch (spoils)
+    {
+        case 1:
+        money += 10*(enemyType);
+        cout << "You got " << 5*enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
+        break;
+        
+        case 2:
+        food += 10*(enemyType);
+        cout << "You got " << 10*enemyType << " food! You now have " << food << " food!" << endl;
+        break;
+        
+        case 3: 
+        money += 5*(enemyType);
+        cout << "You got " << 5*enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
+        break;
+        
+        case 4:
+        shotgunBullet += 3*(enemyType);
+        pistolBullet += 10*(enemyType);
+        cout << "You got " << 10*enemyType << " pistol bullets and " << 3*enemyType << " shotgun bullets!" << endl;
+        break;
+        
+        case 5:
+        money += 15*(enemyType);
+        cout << "You got " << 5*enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
+        break;
+    }
+}
+        
+void gameOver()
+{
+    cout << "You have 0 life remaining. You are now dead." << endl;
+    cout << "GAME OVER!" << endl;
+    
+    if (lives > 0)
+    {
+        cout << "Continue? It will cost 100 gold coins, along with one of your " << lives << " live(s) left."<< endl;
+        cin >> answer;
+    
+        if (answer == "yes")
+        {
+            lives -= 1;
+            myLife = 100;
+            int main();
+        }
+        
+        else
+        {
+            return;
+        }
+    }
+}
+
+void enemyPicker()
+{
+    srand(time(NULL));                                          
+    int enemyChooser = rand() % 10 + 1;
+    bossLife = 200;
+    impLife = 10*enemyChooser;
+    
+    if (enemyChooser == 10)
+    {
+        cout << "You have encountered a boss! It is at " << bossLife << " health!" << endl;
+    }
+
+    else
+    {
+        cout << "You have encountered an imp! It is at " << impLife << " health!" << endl;
+    }
+    enemyType = enemyChooser;
+}
+
+void fightSequence()
+{
+    redo:
+    myTurn();
+    
+    if (bossLife <= 0)
+    {
+        if (bossLife != -1289)
+        spoilsOfWar();
+        enemyPicker();
+        goto redo;
+    }
+    
+    if (impLife <= 0)
+    {
+        if (impLife != -1289)
+        spoilsOfWar();
+        enemyPicker();
+        goto redo;
+    }
+    
+    if (enemyType == 10)
+    {
+        bossAttack();
+        
+        if (myLife <= 0)
+        {
+            gameOver();
+        }
+        goto redo;
+    }
+    
+    if (enemyType != 10)
+    {
+        impAttack();
+        
+        if (myLife <= 0)
+        {
+            gameOver();
+        }
+        goto redo;
+    }
+} 
+
+//Below is the initial main function where the program is actually executed
+
+int main()
+{
+    if (lives == 3)
+    {
+        cout << "Welcome to the game Dual Swords: An RPG Legend. Press any key, then enter, to begin your first fight." << endl;
+        cin >> answer;
+        if (answer != " ")
+        {
+            enemyPicker();
+            fightSequence();
+        }
+    }
+} 
