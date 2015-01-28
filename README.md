@@ -6,4 +6,4 @@ Well, Dual Swords is a C++ text-based game.
 
 The different versions are split up. 
 
-Beta 1.0 is in both branches Post Beta and Beta 1.0.
+There is Beta and Post Beta(and Pre Alpha) at the moment. 
