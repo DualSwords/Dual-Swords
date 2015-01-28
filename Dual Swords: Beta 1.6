@@ -1,0 +1,2790 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <ctime>
+#include <cstdlib>
+#include <stdio.h>
+#include <time.h>
+
+using namespace std;
+
+int shotgunBullet = 10;
+int pistolBullet = 40;
+int food = 100;
+int myLife = 250;
+int lives = 3;
+int hoard = 5;
+int mazeStep = 0;
+int grenade;
+int enemyLife;
+int money;
+int enemyType;
+int spoils;
+int damage;
+int myDamage;
+int quantity;
+int required;
+int experience;
+int level;
+int failsafe;
+int broadswordForge = 3;
+int knifeForge = 3;
+int shieldForge = 3;
+int shotgunForge = 3;
+int pistolForge = 3;
+int elemental;
+
+string answer;
+string enemy;
+string desiredLocation;
+string currentLocation = "Angiru";
+string element;
+string broadswordElement;
+string dualSwordElement;
+
+bool d1clear = false;
+bool d2clear = false;
+bool d3clear = true;
+bool d4clear = false;
+bool d5clear = false;
+bool d6clear = false;
+bool d7clear = false;
+bool d8clear = false;
+bool broadsword = false;
+bool shield = false;
+bool knife = false;
+bool dualSword = false;
+bool shotgunUpgrade = false;
+bool pistolUpgrade = false;
+bool broadswordUpgrade = false;
+bool shieldUpgrade = false;
+bool knifeUpgrade = false;
+bool ightormeldCrystal = false;
+bool gorothGem = false;
+bool mesedtJewel = false;
+bool vororokthIngot = false;
+bool forgingTrinket = false;
+bool elementalForgingTrinket = false;
+bool questing = false;
+bool dragonQuest = false;
+bool waterStone = false;
+bool fireStone = false;
+bool airStone = false;
+bool earthStone = false;
+bool shardOne = false;
+bool shardTwo = false;
+bool shardThree = false;
+bool shardFour = false;
+bool play = false;
+
+void upgrade()
+{
+    if (shieldUpgrade)
+    {
+        if (shieldForge == 1)
+        {
+            damage += 20;
+        }
+        
+        else if (shieldForge == 2)
+        {
+            damage += 10;
+        }
+        
+        else if (shieldForge == 3)
+        {
+            damage += 0;
+        }
+        
+        else if (shieldForge == 4)
+        {
+            damage -= 30;
+        }
+        
+        else if (shieldForge == 5)
+        {
+            damage -= 50;
+        }
+    }
+    
+    if (broadswordUpgrade && (answer == "broadsword" || answer == "Broadsword"))
+    {
+        if (broadswordForge == 1)
+        {
+            myDamage -= 40;
+        }
+        
+        else if (broadswordForge == 2)
+        {
+            myDamage -= 20;
+        }
+        
+        else if (broadswordForge == 3)
+        {
+            myDamage += 0;
+        }
+        
+        else if (broadswordForge == 4)
+        {
+            myDamage += 40;
+        }
+        
+        else if (broadswordForge == 5)
+        {
+            myDamage += 60;
+        }
+    }
+    
+    if (knifeUpgrade && (answer == "knife" || answer == "Knife"))
+    {
+        if (knifeForge == 1)
+        {
+            myDamage -= 25;
+        }
+        
+        else if (knifeForge == 2)
+        {
+            myDamage -= 15;
+        }
+        
+        else if (knifeForge == 3)
+        {
+            myDamage += 0;
+        }
+        
+        else if (knifeForge == 4)
+        {
+            myDamage += 20;
+        }
+        
+        else if (knifeForge == 5)
+        {
+            myDamage += 30;
+        }
+    }
+    
+    if (shotgunUpgrade && (answer == "shotgun" || answer == "Shotgun"))
+    {
+        if (shotgunForge == 1)
+        {
+            myDamage -= 20;
+        }
+        
+        else if (shotgunForge == 2)
+        {
+            myDamage -= 10;
+        }
+        
+        else if (broadswordForge == 3)
+        {
+            myDamage += 0;
+        }
+        
+        else if (shotgunForge == 4)
+        {
+            myDamage += 15;
+        }
+        
+        else if (shotgunForge == 5)
+        {
+            myDamage += 30;
+        }
+    }
+    
+    if (pistolUpgrade && (answer == "pistol" || answer == "Pistol"))
+    {
+        if (pistolForge == 1)
+        {
+            myDamage -= 15;
+        }
+        
+        else if (pistolForge == 2)
+        {
+            myDamage -= 5;
+        }
+        
+        else if (pistolForge == 3)
+        {
+            myDamage += 0;
+        }
+        
+        else if (pistolForge == 4)
+        {
+            myDamage += 10;
+        }
+        
+        else if (pistolForge == 5)
+        {
+            myDamage += 20;
+        }
+    }
+}
+    
+void grenadeLauncher()
+{
+        launcher:
+        srand(time(NULL));                                          
+        int damageGrenade = rand() % 10000 + 1689;
+        srand(time(NULL));                                          
+        int damageBludgeon = rand() % 80 + 50;
+    
+        cout << "You can do the following with the grenade launcher:" << endl;
+        cout << "Bludgeon" << endl;
+        
+        if (grenade > 0)
+        {
+            cout << "Grenade" << endl;
+        }
+    
+        cout << "What will you do?" << endl;
+        cin >> answer;
+        
+        if (answer != "grenade" && answer != "bludgeon")
+        {
+            cout << "That is not a valid command. Please try again." << endl;
+            goto launcher;
+        }
+        
+        if (answer == "grenade" && grenade > 0)
+        {
+            enemyLife -= damageGrenade;
+            cout << "You have successfully grenaded the " << enemy << "!" << endl;
+            cout << "BOOM!" << endl;
+        }
+        
+        else if (answer == "bludgeon")
+        {
+            enemyLife -= damageBludgeon;
+            cout << "You have successfully bludgeoned the " << enemy << ", and it is now at " << enemyLife << endl;
+        }
+
+        else 
+        {
+            cout << "There has been an error." << endl;
+            goto launcher;
+        }
+    }
+    
+void shootShotgun()
+{
+    if (shotgunBullet > 0)
+    {
+        shotgunBullet -= 1;
+        srand(time(NULL));                                          
+        int damageShotgun = rand() % 45 + 15;
+        upgrade();
+        myDamage = damageShotgun;
+        enemyLife -= damageShotgun;
+        cout << "The " << enemy << "s health is now at " << enemyLife << "." << endl;
+        cout << "You have " << shotgunBullet << " bullets left for the shotgun" << endl;
+    }
+    
+    else if (shotgunBullet <= 0)
+    {
+        cout << "You are out of bullets." << endl;
+    }
+}
+
+void shootPistol()
+{
+    if (pistolBullet > 0)
+    {
+        pistolBullet -= 1;
+        srand(time(NULL));                                          
+        int damagePistol = rand() % 20 + 15;
+        upgrade();
+        myDamage = damagePistol;
+        enemyLife -= damagePistol;
+        cout << "The " << enemy << "s health is now at " << enemyLife << "." << endl;
+        cout << "You have " << pistolBullet << " bullets left for the pistol" << endl;
+    }
+    
+    else if (pistolBullet <= 0)
+    {
+        cout << "You are out of bullets." << endl;
+    }
+}
+
+void swingBroadsword()
+{
+    srand(time(NULL));                                          
+    int damageBroadsword = rand() % 80 + 50;
+    upgrade();
+    myDamage = damageBroadsword;
+    
+    if (broadswordElement == "earth")
+    {
+        damage -= 25;
+    }
+    
+    if (broadswordElement == "water")
+    {
+        damage -= 50;
+    }
+    enemyLife -= damageBroadsword;
+    cout << "The " << enemy << "s health is now at " << enemyLife << "." << endl;
+}
+
+void swingDualSword()
+{
+    srand(time(NULL));                                          
+    int damageDualSword = rand() % 80 + 50;
+    upgrade();
+    myDamage = damageDualSword;
+    
+    if (dualSwordElement == "earth")
+    {
+        damage -= 25;
+    }
+    
+    if (dualSwordElement == "water")
+    {
+        damage -= 50;
+    }
+    enemyLife -= damageDualSword;
+    cout << "The " << enemy << "s health is now at " << enemyLife << "." << endl;
+}
+
+void stabKnife()
+{
+        srand(time(NULL));                                          
+        int damageKnife = rand() % 50 + 25;
+        upgrade();
+        myDamage = damageKnife;
+        enemyLife -= damageKnife;
+        cout << "The " << enemy << "s health is now at " << enemyLife << "." << endl;
+}
+
+void armor()
+{
+    if(shield == true)
+    {
+        damage /= 2;
+    }
+    upgrade();
+}
+
+void enemyAttack()
+{
+	enemy:
+	srand(time(NULL));                                          
+    int damage = rand() % 4 + 1;
+    damage *= enemyType;
+    armor();
+    
+    if (broadswordElement == "water" || dualSwordElement == "water")
+    {
+        damage -= 50;
+    }
+	cout << "It is now the " << enemy << "s turn to attack." << endl;
+	cin >> answer;
+	if (answer != " ")
+	{
+	    myLife -= damage;
+	    cout << "Your life has been reduced to " << myLife << "." << endl;
+	}
+	
+    else 
+    {
+    	cout << "There has been an error. Please try again." << endl;
+    	goto enemy;
+    }
+}
+
+void bossAttack()
+{
+    if (enemy == "Kokurus")
+    {
+        srand(time(NULL));                                          
+        int damage = rand() % 70 + 30;
+        armor();
+        
+        if (broadswordElement == "water" || dualSwordElement == "water")
+        {
+            damage -= 50;
+        }
+        
+        if (broadswordElement == "earth" || dualSwordElement == "earth")
+        {
+            damage -= 25;
+        }
+        cout << "It is now Kokurus' turn to attack." << endl;
+        myLife -= damage;
+    }
+    
+    if (enemy == "Dodorami")
+    {
+        srand(time(NULL));                                          
+        int damage = rand() % 70 + 40;
+        armor();
+        
+        if (broadswordElement == "water" || dualSwordElement == "water")
+        {
+            damage -= 50;
+        }
+        
+        if (broadswordElement == "earth" || dualSwordElement == "earth")
+        {
+            damage -= 25;
+        }
+        cout << "It is now Dodoramis turn to attack." << endl;
+        myLife -= damage;
+    }
+    
+    if (enemy == "Kosami")
+    {
+        srand(time(NULL));                                          
+        int damage = rand() % 70 + 30;
+        armor();
+        
+        if (broadswordElement == "water" || dualSwordElement == "water")
+        {
+            damage -= 50;
+        }
+        
+        if (broadswordElement == "earth" || dualSwordElement == "earth")
+        {
+            damage -= 25;
+        }
+        cout << "It is now Kosamis turn to attack." << endl;
+        myLife -= damage;
+    }
+}
+    
+void chooseWeapon()
+{
+    choose:
+    cout << "Your available weapons are:" << endl;
+    cout << "Shotgun" << endl;
+    cout << "Pistol" << endl;
+    
+    if (broadsword == true)
+    {
+        cout << "Broadsword" << endl;
+    }
+    
+    if (knife == true)
+    {
+        cout << "Knife" << endl;
+    }
+    
+    cout << "What will you use?" << endl;
+    cin >> answer;
+    
+    if (answer != "shotgun" && answer != "pistol" && answer != "broadsword" && answer != "knife" && answer != "launcher")
+    {
+        cout << "That is not a valid weapon. Please try again." << endl;
+        goto choose;
+    }
+    
+    if (answer == "shotgun")
+    {
+        shootShotgun();
+    }
+    
+    else if (answer == "pistol")
+    {
+        shootPistol();
+    }
+    
+    else if (answer == "broadsword" && broadsword == true)
+    {
+        swingBroadsword();
+    }
+    
+    else if (answer == "knife" && knife == true)
+    {
+        stabKnife();
+    }
+    
+    else if (answer == "launcher")
+    {
+        grenadeLauncher();
+    }
+    
+    else
+    {
+        cout << "That is not a valid weapon, or you have not bought it yet." << endl;
+        goto choose;
+    }
+}   
+
+void levelUp()
+{
+    if (experience == 0 && level == 0)
+    {
+        required = 500;
+    }
+    cout << "You got " << experience << " experience from the fight." << endl;
+    
+    if (experience >= required)
+    {
+        experience -= required;
+        level += 1;
+        cout << "You have leveled up! You are now at level " << level << "!" << endl;
+        srand(time(NULL));                                          
+        int newRequired = rand() % 500 + 100;
+        required += newRequired;
+    }
+    
+    else if (experience < required)
+    {
+        cout << "You are " << (required - experience) << " exp away from level " << (level + 1) << "." << endl;
+    }
+    
+    
+}
+
+void runAway()
+{
+    enemyLife = -1289;
+    food -= 10;
+    cout << "You lost 10 food in the scuffle." << endl;
+    
+}
+
+void eat()
+{
+    food -= 20;
+    myLife += 50;
+    cout << "Your health is now at " << myLife << " health, and you have " << food << " food left." << endl;
+}
+
+void dungeonBoss()
+{
+    cout << "You have reached the end of the hall. You see a room, the door slightly ajar, with lights flickering." << endl;
+    cout << "When you are ready, type any key then enter to begin fighting the boss." << endl;
+    cin >> answer;
+    if (answer != " ")
+    {
+        if (currentLocation == "Ightormeld" && hoard == 0 && questing == true)
+        {
+            enemyType = 100;
+            enemyLife = 1000;
+            enemy = "Gakudoki";
+            cout << "You have engaged in battle with the dungeon boss, Gakadoki, the Collector of Dreams." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Goroth" && hoard == 0 && questing == true)
+        {
+            enemyType = 101;
+            enemyLife = 1500;
+            enemy = "Dreallade";
+            cout << "You have engaged in battle with the dungeon boss, Dreallade, the Reaper of Souls." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Mesedt" && hoard == 0 && questing == true)
+        {
+            enemyType = 102;
+            enemyLife = 2000;
+            enemy = "Kosami";
+            cout << "You have engaged in battle with the dungeon boss, Kosami, the Bane of Life." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Umkelu" && hoard == 0 && questing == true)
+        {
+            enemyType = 103;
+            enemyLife = 2500;
+            enemy = "Tinkimi";
+            cout << "You have engaged in battle with the dungeon boss, Tinkimi, the Thief of Courage." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Alether" && hoard == 0 && questing == true)
+        {
+            enemyType = 104;
+            enemyLife = 3000;
+            enemy = "Lloquear";
+            cout << "You have engaged in battle with the dungeon boss, Lloquear, Courier of Death." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Mosmkin" && hoard == 0 && questing == true)
+        {
+            enemyType = 105;
+            enemyLife = 3500;
+            enemy = "Waonow";
+            cout << "You have engaged in battle with the dungeon boss, Waonow, the Gladiator of Destruction." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Tinimet" && hoard == 0 && questing == true)
+        {
+            enemyType = 106;
+            enemyLife = 4000;
+            enemy = "Sihodima";
+            cout << "You have engaged in battle with the dungeon boss, Sihodima, the Seraph of Shadows." << endl;
+            cout << "What will you do?" << endl;
+        }
+        
+        else if (currentLocation == "Lair" && hoard == 0 && questing == true)
+        {
+            enemyType = 107;
+            enemyLife = 5000;
+            enemy = "Vororokth";
+            cout << "You have engaged in battle with the dungeon boss, Vororokth, the Dragon of Demise." << endl;
+            cout << "What will you do?" << endl;
+        }
+    } 
+}
+
+void checkMoney()
+{
+	if (money <= 0)
+	{
+		cout << "You are out of money." << endl;
+		chooseWeapon();
+	}
+}
+
+void visitShop()
+{
+    main_shop:
+    cout << "Here, you can buy bullets, food, weapon upgrades, or new weapons." << endl;
+    cout << "To go to the bullet shop, the command is 'bullet'." << endl;
+    cout << "To go to the upgrade smith, the command is 'upgrade'" << endl;
+    cout << "To go to the arms depot, the command is 'weapon'" << endl;
+    cout << "To exit to main menu, the command is is 'main'." << endl;
+    cin >> answer;
+    
+    if ((answer != "bullet" || answer != "Bullet") && (answer != "weapon" || answer != "Weapon") && (answer != "upgrade" || answer != "Upgrade") && (answer != "food" || answer != "Food") && (answer != "main" || answer != "Main"))
+    {
+        cout << "That is an invalid command. Please press one of the ones specified." << endl;
+        goto main_shop;
+    }
+    
+    if (answer == "bullet" || answer == "Bullet")
+    {
+        bullet_shop:
+        cout << "Shotgun bullets are 10 bullets for 50 gold coins." << endl;
+        cout << "Pistol bullets are 40 bullets for 75 gold coins." << endl;
+        cout << "Would you like to buy pistol or shotgun bullets?" << endl;
+        cin >> answer;
+            
+        if ((answer != "pistol" || answer != "Pistol") && (answer != "shotgun" || answer != "Shotgun") && (answer != "main" || answer != "Main"))
+        {
+            cout << "That is an invalid operation. Please try again." << endl;
+            goto bullet_shop;
+        }
+        
+        if (answer == "shotgun" || answer == "Shotgun")
+        {
+            shotgun_bullet_shop:
+            cout << "How many bullets would you like to buy? You can buy 10, 20, or 30 bullets at a time." << endl;
+            cin >> quantity;
+            
+            if (quantity != 10 && quantity != 20 && quantity != 30)
+            {
+                cout << "That is an invalid number. Please buy only 10, 20, or 30 bullets." << endl;
+                checkMoney();
+                goto shotgun_bullet_shop;
+            }
+            
+            if (quantity == 10)
+            {
+                shotgunBullet += 10;
+                money -= 50;
+                cout << "You now have " << shotgunBullet << " shotgun bullets, and " << money << " gold coins." << endl;
+                checkMoney();
+                bullets_1:
+                cout << "Would you like to purchase more bullets?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto bullets_1;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                goto shotgun_bullet_shop;
+                
+                else if (answer == "no" || answer == "No")
+                goto bullet_shop;
+           		
+           		else 
+           		{
+           			cout << "That is an invalid answer. Please try again." << endl;
+           			goto bullets_1;
+           		}
+            }
+            
+            else if (quantity == 20)
+            {
+                shotgunBullet += 20;
+                money -= 100;
+                cout << "You now have " << shotgunBullet << " shotgun bullets, and " << money << " gold coins." << endl;
+                checkMoney();
+                bullets_2:
+                cout << "Would you like to purchase more bullets?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto bullets_2;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                goto shotgun_bullet_shop;
+                
+                else if (answer == "no" || answer == "No")
+                goto bullet_shop;
+           		
+           		else 
+           		{
+           			cout << "That is an invalid answer. Please try again." << endl;
+           			goto bullets_2;
+           		}
+            }
+            
+            else if (quantity == 30)
+            {
+                shotgunBullet += 30;
+                money -= 150;
+                cout << "You now have " << shotgunBullet << " shotgun bullets, and " << money << " gold coins." << endl;
+                checkMoney();
+                bullets_3:
+                cout << "Would you like to purchase more bullets?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto bullets_3;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                goto shotgun_bullet_shop;
+                
+                else if (answer == "no" || answer == "No")
+                goto bullet_shop;
+           		
+           		else 
+           		{
+           			cout << "That is an invalid answer. Please try again." << endl;
+           			goto bullets_3;
+           		}
+            }
+            
+            else
+            {
+                cout << "That is an invalid number. Please buy only 10, 20, or 30 bullets." << endl;
+                goto bullet_shop;
+            }
+        }
+        
+        else if (answer == "pistol" || answer == "Pistol")
+        {
+            pistol_bullet_shop:
+            cout << "How many bullets would you like to buy? You can buy 40, 80, or 120 bullets at a time." << endl;
+            cin >> quantity;
+            
+            if (quantity != 40 && quantity != 80 && quantity != 120)
+            {
+                cout << "That is an invalid number. Please buy only 40, 80, or 120 bullets." << endl;
+                goto pistol_bullet_shop;
+            }
+            
+            if (quantity == 40)
+            {
+                pistolBullet += 40;
+                money -= 75;
+                cout << "You now have " << pistolBullet << " pistol bullets, and " << money << " gold coins." << endl;
+                checkMoney();
+                bullets_4:
+                cout << "Would you like to purchase more bullets?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto bullets_4;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                goto pistol_bullet_shop;
+                
+                else if (answer == "no" || answer == "No")
+                goto bullet_shop;
+           		
+           		else 
+           		{
+           			cout << "That is an invalid answer. Please try again." << endl;
+           			goto bullets_4;
+           		}
+            }
+            
+            else if (quantity == 80)
+            {
+                pistolBullet += 80;
+                money -= 150;
+                cout << "You now have " << pistolBullet << " pistol bullets, and " << money << " gold coins." << endl;
+                checkMoney();
+                bullets_5:
+                cout << "Would you like to purchase more bullets?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto bullets_5;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                goto pistol_bullet_shop;
+                
+                else if (answer == "no" || answer == "No")
+                goto bullet_shop;
+           		
+           		else 
+           		{
+           			cout << "That is an invalid answer. Please try again." << endl;
+           			goto bullets_5;
+           		}
+            }
+            
+            else if (quantity == 120)
+            {
+                pistolBullet += 120;
+                money -= 225;
+                cout << "You now have " << pistolBullet << " pistol bullets, and " << money << " gold coins." << endl;
+                checkMoney();
+                bullets_6:
+                cout << "Would you like to purchase more bullets?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto bullets_6;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                goto pistol_bullet_shop;
+                
+                else if (answer == "no" || answer == "No")
+                goto bullet_shop;
+                
+           		else 
+           		{
+           			cout << "That is an invalid answer. Please try again." << endl;
+           			goto bullets_6;
+           		}
+            }
+            
+            else
+            {
+                cout << "That is an invalid number. Please buy only 40, 80, or 120 bullets." << endl;
+                goto pistol_bullet_shop;
+            }
+        }
+        
+        else if (answer == "main" || answer == "Main")
+        {
+        goto main_shop;
+        }
+        
+        else 
+        {
+            cout << "That is an invalid answer. Please try again." << endl;
+            goto bullet_shop;
+        }
+    }
+    
+    if (answer == "food" || answer == "Food")
+    {
+        food_shop:
+        cout << "How much food would you like to buy? You can buy 20, 40, or 60 food at a time." << endl;
+        cout << "20 food costs 50 gold coins." << endl;
+        cin >> quantity;
+            
+        if (quantity != 20 && quantity != 40 && quantity != 60)
+        {
+            cout << "That is an invalid number. Please buy only 20, 40, or 60 food." << endl;
+            goto food_shop;
+        }
+            
+        if (quantity == 20)
+        {
+            food += 20;
+            money -= 50;
+            cout << "You now have " << food << " food, and " << money << " gold coins." << endl;
+            checkMoney();
+            food_1:
+                cout << "Would you like to purchase more food?" << endl;
+                cin >> answer;
+                
+                if ((answer != "yes" || answer != "Yes") && (answer != "no" || answer != "No"))
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto food_1;
+                }
+                
+                if (answer == "yes" || answer == "Yes")
+                {
+                goto food_shop;
+                }
+                
+                else if (answer == "no" || answer == "No")
+                {
+                goto main_shop;
+                }
+                
+                else
+                {
+                    cout << "That is an invalid answer. Please try again." << endl;
+                    goto food_1;
+                }
+        }
+            
+        else if (quantity == 40)
+        {
+            food += 40;
+            money -= 100;
+            cout << "You now have " << food << " food, and " << money << " gold coins." << endl;
+            checkMoney();
+            food_2:
+                cout << "Would you like to purchase more food?" << endl;
+                cin >> answer;
+                
+                if (answer != "yes" && answer != "no")
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto food_2;
+                }
+                
+                if (answer == "yes")
+                {
+                    goto food_shop;
+                }
+                
+                else if (answer == "no")
+                {
+                    goto main_shop;
+                }
+                
+                else
+                {
+                    cout << "That is an invalid answer. Please try again." << endl;
+                    goto food_2;
+                }
+        }
+            
+        else if (quantity == 60)
+        {
+            food += 60;
+            money -= 150;
+            cout << "You now have " << food << " food, and " << money << " gold coins." << endl;
+            checkMoney();
+            food_3:
+            cout << "Would you like to purchase more food?" << endl;
+                cin >> answer;
+                
+                if (answer != "yes" && answer != "no")
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto food_3;
+                }
+                
+                if (answer == "yes")
+                {
+                    goto food_shop;
+                }
+                
+                else if (answer == "no")
+                {
+                    goto main_shop;
+                }
+                
+                else
+                {
+                    cout << "That is an invalid answer. Please try again." << endl;
+                    goto food_3;
+                }
+        }
+            
+        else
+        {
+            cout << "That is an invalid number. Please buy only 20, 40, or 60 food." << endl;
+            goto food_shop;
+        }
+    }
+    
+    if (answer == "upgrade" || answer == "Upgrade")
+    {
+        upgrade_shop:
+        
+        if (1 == 1)
+        {
+            if (pistolUpgrade == false)
+            {
+        	    cout << "There is a pistol upgrade for 1500 gold coins." << endl;
+            }
+        
+            if (shotgunUpgrade == false)
+            {
+            	cout << "There is a shotgun upgrade for 2000 gold coins." << endl;
+            }
+            
+            if (broadsword == true && broadswordUpgrade == false)
+            {
+            	cout << "There is a broadsword upgrade for 8000 gold coins." << endl;
+            }
+            
+            if (knife == true && knifeUpgrade == false)
+            {
+            	cout << "There is a knife upgrade for 5000 gold coins." << endl;
+            }
+            
+            if (shield == true && shieldUpgrade == false)
+            {
+            	cout << "There is a shield upgrade for 6000 gold coins." << endl;
+            }
+        
+            cout << "What will you buy?" << endl;
+            cin >> answer;
+        }
+        
+        if (answer != "shotgun" && answer != "pistol" && answer != "broadsword" && answer != "shield" && answer != "knife" && answer != "main")
+        {
+            cout << "That is an invalid answer. Please try again." << endl;
+            goto upgrade_shop;
+        }
+        
+        if (answer == "shotgun")
+        {
+            if (answer == "shotgun" && shotgunUpgrade == false && money >= 2000)
+            {
+        	    shotgunUpgrade = true;
+        	    money -= 2000;
+        	    cout << "You have bought the shotgun upgrade! It will now do twice as much damage!" << endl;
+        	    checkMoney();
+        	    goto upgrade_shop;
+            }
+            
+            else if (money <= 2000)
+            {
+                cout << "You do not have enough money to buy this." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        else if (answer == "pistol")
+        {
+            
+            if (answer == "pistol" && pistolUpgrade == false && money >= 1500)
+            {
+        	    shotgunUpgrade = true;
+        	    money -= 1500;
+        	    cout << "You have bought the pistol upgrade! It will now do twice as much damage!" << endl;
+        	    checkMoney();
+        	    goto upgrade_shop;
+            }
+        
+            else if (money <= 1500)
+            {
+                cout << "You do not have enough money to buy this." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        else if (answer == "broadsword")
+        {
+            
+            if (answer == "broadsword" && broadswordUpgrade == false && money >= 8000)
+            {
+        	    broadswordUpgrade = true;
+        	    money -= 8000;
+        	    cout << "You have bought the broadsword upgrade! It will now do twice as much damage!" << endl;
+        	    checkMoney();
+        	    goto upgrade_shop;
+            }
+        
+            else if (money <= 8000)
+            {
+                cout << "You do not have enough money to buy this." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        else if (answer == "knife")
+        {
+            
+            if (answer == "knife" && knifeUpgrade == false && money >= 5000)
+            {
+        	    knifeUpgrade = true;
+        	    money -= 5000;
+        	    cout << "You have bought the knife upgrade! It will now do twice as much damage!" << endl;
+        	    checkMoney();
+        	    goto upgrade_shop;
+            }
+        
+            else if (money <= 5000)
+            {
+                cout << "You do not have enough money to buy this." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        else if (answer == "shield")
+        {
+            
+            if (answer == "shield" && shieldUpgrade == false && money >= 5000)
+            {
+        	    shieldUpgrade = true;
+        	    money -= 5000;
+        	    cout << "You have bought the shield upgrade! It will now block twice as much damage!" << endl;
+        	    checkMoney();
+        	    goto upgrade_shop;
+            }
+        
+            else if (money <= 5000)
+            {
+                cout << "You do not have enough money to buy this." << endl;
+                goto upgrade_shop;
+            }
+        }
+        
+        else if (answer == "main")
+        {
+            goto main_shop;
+        }
+        
+        else
+        {
+            cout << "That is an invalid answer. Please try again." << endl;
+            goto upgrade_shop;
+        }
+    }
+
+    if (answer == "weapon" || answer == "Weapon")
+    {
+        weapons_shop:
+        
+        if (1 == 1)
+        {
+            if (!shield && !shieldUpgrade)
+            {
+                cout << "You can buy a shield for 2500 gold coins." << endl;
+            }
+            
+            if (!broadsword && !broadswordUpgrade)
+            {
+                cout << "You can buy a broadsword for 5000 gold coins." << endl;
+            }
+            
+            if (!knife && !knifeUpgrade)
+            {
+                cout << "You can buy a knife for 3000 gold coins." << endl;
+            }
+            
+            cout << "What will you buy?" << endl;
+            cin >> answer;
+            
+            if (answer != "broadsword" && answer != "shield" && answer != "knife" && answer != "main")
+            {
+                cout << "That is an invalid answer. Please try again." << endl;
+                goto weapons_shop;
+            }
+        }
+        
+        if (answer == "broadsword")
+        {
+            if (answer == "broadsword" && !broadsword && !broadswordUpgrade && money >= 5000)
+            {
+                broadsword = true;
+                money -= 5000;
+                cout << "You have bought the broadsword! It does a ton of damage!" << endl;
+                checkMoney();
+                weapon_1:
+                cout << "Would you like to purchase another weapon?" << endl;
+                cin >> answer;
+                
+                if (answer != "yes" && answer != "no")
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto weapon_1;
+                }
+                
+                if (answer == "yes")
+                {
+                goto weapons_shop;
+                }
+                
+                else if (answer == "no")
+                {
+                goto main_shop;
+                }
+                
+                else
+                {
+                    cout << "That is an invalid answer. Please try again." << endl;
+                    goto weapon_1;
+                }
+            }
+                
+                
+            
+    }
+    
+        if (answer == "knife")
+        {
+            if (answer == "knife" && !knife && !knifeUpgrade && money >= 3000)
+            {
+                knife = true;
+                money -= 3000;
+                checkMoney();
+                cout << "You have bought the knife! It does a lot of damage!" << endl;
+                weapon_2:
+                cout << "Would you like to purchase another weapon?" << endl;
+                cin >> answer;
+                
+                if (answer != "yes" && answer != "no")
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto weapon_2;
+                }
+                
+                if (answer == "yes")
+                {
+                goto weapons_shop;
+                }
+                
+                else if (answer == "no")
+                {
+                goto main_shop;
+                }
+                
+                else
+                {
+                    cout << "That is an invalid answer. Please try again." << endl;
+                    goto weapon_2;
+                }
+            }
+}
+
+        if (answer == "shield")
+        {
+            if (answer == "shield" && !shield && !shieldUpgrade && money >= 2500)
+            {
+                shield = true;
+                money -= 2500;
+                cout << "You have bought the shield! It blocks a lot of  damage!" << endl;
+                checkMoney();
+                weapon_3:
+                cout << "Would you like to purchase another weapon?" << endl;
+                cin >> answer;
+                
+                if (answer != "yes" && answer != "no")
+                {
+                	cout << "That is an invalid answer. Please try again." << endl;
+                	goto weapon_3;
+                }
+                
+                if (answer == "yes")
+                {
+                goto weapons_shop;
+                }
+                
+                else if (answer == "no")
+                {
+                goto main_shop;
+                }
+                
+                else
+                {
+                    cout << "That is an invalid answer. Please try again." << endl;
+                    goto weapon_3;
+                }
+            }
+        }
+        
+        if (answer == "main")
+        {
+            goto main_shop;
+        }
+    }
+}
+
+void ightormeld()
+{
+    cout << "Welcome to the ruins of Ightormeld." << endl;
+    cout << "Will you begin your quest by walking into the courtyard?" << endl;
+    cout << "Or will you travel back to Warkim?" << endl;
+    ruins:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto ruins;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 1;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Warkim";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto ruins;
+    }
+}
+
+void goroth()
+{
+    cout << "Welcome to the temple of Goroth." << endl;
+    cout << "Will you begin your quest by walking into the temple?" << endl;
+    cout << "Or will you travel back to Thylas?" << endl;
+    temple:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto temple;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 15;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Thylas";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto temple;
+    }
+}
+
+void mesedt()
+{
+    cout << "Welcome to the mines of Mesedt." << endl;
+    cout << "Will you begin your quest by walking into the mines?" << endl;
+    cout << "Or will you travel back to Driskelang?" << endl;
+    mines:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto mines;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 20;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Driskelang";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto mines;
+    }
+}
+
+void umkelu()
+{
+    cout << "Welcome to the desert of Umkelu." << endl;
+    cout << "Will you begin your quest by walking into the desert?" << endl;
+    cout << "Or will you travel back to Deltai?" << endl;
+    desert:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto desert;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 20;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Deltai";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto desert;
+    }
+}
+
+void alether()
+{
+    cout << "Welcome to the island of Alether." << endl;
+    cout << "Will you begin your quest by walking onto the island?" << endl;
+    cout << "Or will you travel back to Kinoll-rad?" << endl;
+    island:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto island;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 25;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Kinoll-rad";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto island;
+    }
+}
+
+void mosmkin()
+{
+    cout << "Welcome to the plains of Mosmkin." << endl;
+    cout << "Will you begin your quest by walking onto the plains?" << endl;
+    cout << "Or will you travel back to Kinoll-rad?" << endl;
+    plains:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto plains;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 25;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Kinoll-rad";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto plains;
+    }
+}
+
+void tinimet()
+{
+    cout << "Welcome to the skies of Tinimet." << endl;
+    cout << "Will you begin your quest by entering the temple in the skies?" << endl;
+    cout << "Or will you travel back to Ryathine?" << endl;
+    skies:
+    cout << "What will you do?" << endl;
+    cout << "Quest" << endl;
+    cout << "Travel" << endl;
+    cin >> answer;
+
+    if (answer != "quest" && answer != "Quest" && answer != "travel" && answer != "Travel")
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto skies;
+    }
+        
+    if (answer == "quest" || answer == "Quest")
+    {
+        hoard = 25;
+        questing = true;
+        int main();
+    }
+
+    else if (answer == "travel" || answer == "Travel")
+    {
+        currentLocation = "Ryathine";
+    }
+    
+    else 
+    {
+        cout << "That is not a valid command. Please try again." << endl;
+        goto skies;
+    }
+}
+
+void travel()
+{
+    travel:
+    cout << "You can travel to these places:" << endl;
+    
+    if (currentLocation != "Thylas" && currentLocation != "Zhyfrod")
+    {
+        cout << "Thylas" << endl;
+    }
+    
+    if (currentLocation == "Warkim" && d1clear == false)
+    {
+        cout << "The Ruins of Ightormeld" << endl;
+    }
+    
+    if (currentLocation != "Kinoll-rad")
+    {
+        cout << "Kinoll-rad" << endl;
+    }
+    
+    if (currentLocation != "Warkim" && currentLocation != "Zhyfrod")
+    {
+        cout << "Warkim" << endl;
+    }
+    
+    if (currentLocation != "Agegar" && currentLocation != "Zhyfrod")
+    {
+        cout << "Agegar" << endl;
+    }
+    
+    if (currentLocation != "Zhyfrod" && currentLocation == "Kinoll-rad")
+    {
+        cout << "Zhyfrod" << endl;
+    }
+    
+    if (currentLocation == "Thylas" && d1clear == true && d2clear == false)
+    {
+        cout << "The Temple of Goroth" << endl;
+    }
+    
+    if (currentLocation == "Driskelang" && d2clear == true && d3clear == false)
+    {
+        cout << "The Mines of Mesedt" << endl;
+    }
+    
+    if (currentLocation == "Agegar" && d5clear == true && d6clear == false)
+    {
+        cout << "The Plains of Mosmkin" << endl;
+    }
+    
+    if (currentLocation == "Ryathine" && d6clear == true && d7clear == false)
+    {
+        cout << "The Skies of Tinimet" << endl;
+    }
+    
+    if (currentLocation == "Kinoll-rad" && d4clear == true && d3clear == false)
+    {
+        cout << "The Island of Alether" << endl;
+    }
+    
+    if (currentLocation == "Deltai" && d3clear == true && d4clear == false)
+    {
+        cout << "The Desert of Umkelu" << endl;
+    }
+    
+    if (currentLocation != "Angiru" && currentLocation != "Zhyfrod")
+    {
+        cout << "Angiru" << endl;
+    }
+    
+    if (currentLocation != "Deltai" && currentLocation != "Zhyfrod")
+    {
+        cout << "Deltai" << endl;
+    }
+    
+    if (currentLocation != "Driskelang" && currentLocation != "Zhyfrod")
+    {
+        cout << "Driskelang" << endl;
+    }
+    
+    if (currentLocation != "Ryathine" && currentLocation != "Zhyfrod")
+    {
+        cout << "Ryathine" << endl;
+    }
+    
+    if (currentLocation == "Zhyfrod" && dragonQuest == true && d7clear == true && d8clear == false)
+    {
+        cout << "Dragon's Lair" << endl;
+    }
+    
+    cout << "Where would you like to travel to?" << endl;
+    cin >> desiredLocation;
+    
+    if ((desiredLocation == "thylas" || desiredLocation == "Thylas") && currentLocation != "Thylas")
+    {
+        currentLocation = "Thylas";
+        cout << "Welcome to the village of Thylas!" << endl;
+        thylas:
+        
+        if (mazeStep == 4)
+        {
+            mazeStep = 5;
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "angiru" || desiredLocation == "Angiru") && currentLocation != "Angiru")
+    {
+        cout << "Welcome to the village of Angiru!" << endl;
+        currentLocation = "Angiru";
+        
+        if (mazeStep == 2)
+        {
+            mazeStep = 3;
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "quest" || desiredLocation == "Quest") && currentLocation != "Lair")
+    {
+        cout << "Welcome to the lair of the dragon Vororokth!" << endl;
+        currentLocation = "Lair";
+    }
+    
+    else if ((desiredLocation == "warkim" || desiredLocation == "Warkim") && currentLocation != "Warkim")
+    {
+        currentLocation = "Warkim";
+        warkim:
+        cout << "Welcome to the village of Warkim!" << endl;
+        
+        if (mazeStep == 3)
+        {
+            mazeStep = 4;
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "ryathine" || desiredLocation == "Ryathine") && currentLocation != "Ryathine")
+    {
+        currentLocation = "Ryathine";
+        ryathine:
+        cout << "Welcome to the village of Ryathine!" << endl;
+    }
+    
+    else if ((desiredLocation == "zhyfrod" || desiredLocation == "Zhyfrod") && currentLocation != "Zhyfrod" && currentLocation == "Kinoll-rad")
+    {
+        cout << "Welcome to the city of Zhyfrod, the capital of Creturon!" << endl;
+        currentLocation = "Zhyfrod";
+        
+        if (mazeStep == 7 && dragonQuest == false)
+        {
+            cout << "You have completed the maze. If you wish to unlock a new quest, type 'Vororokth'" << endl;
+            cin >> answer;
+            
+            if (answer != "vororokth" && answer != "Vororokth")
+            {
+                cout << "You inability to follow directions made you forget where the new quest is." << endl;
+                mazeStep = 8;
+            }
+            
+            if (answer == "vororokth" || answer == "Vororokth")
+            {
+                dragonQuest = true;
+                cout << "You can now play the quest 'The Lair of the Beast'" << endl;
+            }
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "driskelang" || desiredLocation == "Driskelang") && currentLocation != "Driskelang")
+    {
+        cout << "Welcome to the village of Driskelang!" << endl;
+        currentLocation = "Driskelang";
+        driskelang:
+        
+        if (mazeStep == 1)
+        {
+            mazeStep = 2;
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "kinoll-rad" || desiredLocation == "Kinoll-rad") && currentLocation != "Kinoll-rad")
+    {
+        kinoll_rad:
+        cout << "Welcome to the coastal village of Kinoll-rad!" << endl;
+        currentLocation = "Kinoll-rad";
+        
+        if (mazeStep == 6)
+        {
+            mazeStep = 7;
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "deltai" || desiredLocation == "Deltai") && currentLocation != "Deltai")
+    {
+        deltai:
+        cout << "Welcome to the village of Deltai!" << endl;
+        currentLocation = "Deltai";
+        
+        if (mazeStep == 5)
+        {
+            mazeStep = 6;
+        }
+        
+        else 
+        {
+            mazeStep = 0;
+        }
+    }
+    
+    else if ((desiredLocation == "agegar" || desiredLocation == "Agegar") && currentLocation != "Agegar")
+    {
+        agegar:
+        cout << "Welcome to the village of Agegar!" << endl;
+        currentLocation = "Agegar";
+
+    }
+    
+    else if ((desiredLocation == "maze" || desiredLocation == "Maze") && currentLocation == "Warkim")
+    {
+        cout << "You hear a distant rumbling..." << endl;
+        mazeStep = 1;
+        goto travel;
+    }
+    
+    else if ((desiredLocation == "Ightormeld" || desiredLocation == "ightormeld") && d1clear == false && currentLocation == "Warkim" && currentLocation == "Ightomeld")
+    {
+        currentLocation = "Ightormeld";
+        ightormeld();
+        
+        if (currentLocation == "Warkim")
+        {
+            goto warkim;
+        }
+    }
+    
+    else if ((desiredLocation == "Goroth" || desiredLocation == "goroth") && d1clear == true && d2clear == false && currentLocation == "Thylas" && currentLocation == "Goroth")
+    {
+        currentLocation = "Goroth";
+        goroth();
+        
+        if (currentLocation == "Thylas")
+        {
+            goto thylas;
+        }
+    }
+    
+    else if ((desiredLocation == "Mesedt" || desiredLocation == "mesedt") && d2clear == true && d3clear == false && currentLocation == "Driskelang" && currentLocation == "Mesedt")
+    {
+        currentLocation = "Mesedt";
+        goroth();
+        
+        if (currentLocation == "Driskelang")
+        {
+            goto driskelang;
+        }
+    }
+    
+    else if ((desiredLocation == "umkelu" || desiredLocation == "Umkelu") && currentLocation == "Deltai" && currentLocation != "Umkelu")
+    {
+        cout << "Welcome to the desert of Umkelu!" << endl;
+        umkelu();
+        
+        if (currentLocation == "Deltai")
+        {
+            goto deltai;
+        }
+    }
+    
+    else if ((desiredLocation == "Alether" || desiredLocation == "alether") && d4clear == true && d5clear == false)
+    {
+        currentLocation = "Alether";
+        alether();
+        
+        if (currentLocation == "Deltai")
+        {
+            goto kinoll_rad;
+        }
+    }
+    
+    else if ((desiredLocation == "Mosmkin" || desiredLocation == "mosmkin") && d5clear == true && d6clear == false)
+    {
+        currentLocation = "Mosmkin";
+        mosmkin();
+        
+        if (currentLocation == "Agegar")
+        {
+            goto agegar;
+        }
+    }
+    
+    else if ((desiredLocation == "Tinimet" || desiredLocation == "tinimet") && d6clear == true && d7clear == false)
+    {
+        currentLocation = "Tinimet";
+        tinimet();
+        
+        if (currentLocation == "Ryathine")
+        {
+            goto ryathine;
+        }
+    }
+    
+    else 
+    {
+        cout << "That is either not a valid location, or you cannot go there from your current position." << endl;
+        goto travel;
+    }
+}
+
+void myTurn()
+{
+    if (enemyLife == failsafe)
+    {
+        cout << "You have encountered a " << enemy << "! It is at " << enemyLife << " health!" << endl;
+        
+        if (elemental == 100)
+        {
+            cout << "It is a " << element << " elemental!" << endl;
+        }
+    }
+    fight:
+    cout << "What would you like to do?" << endl;
+    cout << "Fight" << endl;
+    
+    if (food >= 20)
+    {
+        cout << "Eat" << endl;
+        cout << "Run" << endl;
+    }
+    
+    cin >> answer;
+    
+    if (answer != "eat" && answer != "Eat" && answer != "run" && answer != "Run" && answer != "fight" && answer != "Fight")
+    {
+        cout << "That is not a valid command." << endl;
+        goto fight;
+    }
+    
+    if ((answer == "eat" || answer == "Eat") && food >= 20)
+    {
+        eat();
+    }
+    
+    else if ((answer == "run" || answer == "Run") && food >= 20)
+    {
+        runAway();
+    }
+    
+    else if (answer == "fight" || answer == "Fight")
+    {
+        chooseWeapon();
+    }
+    
+    else 
+    {
+        cout << "There has been an error. Please try again." << endl;
+        goto fight;
+    }
+}
+
+void reforge()
+{
+    cout << "Here, you  can reforge your items." << endl;
+    cout << "It will cost 100 times your current reforge level. It is 3 by default." << endl;
+    cout << "You can reforge the following:" << endl;
+    
+    if (broadswordUpgrade == true && broadsword == true)
+    {
+        cout << "Broadsword" << endl;
+    }
+    
+    if (pistolUpgrade == true)
+    {
+        cout << "Pistol" << endl;
+    }
+    
+    if (shotgunUpgrade == true)
+    {
+        cout << "Shotgun" << endl;
+    }
+    
+    if (knifeUpgrade == true)
+    {
+        cout << "Knife" << endl;
+    }
+    
+    if (shieldUpgrade == true)
+    {
+        cout << "Shield" << endl;
+    }
+    
+    if (dualSword == true)
+    {
+        cout << "Dual Sword" << endl;
+    }
+    
+    cout << "What will you get?" << endl;
+    cin >> answer;
+    
+    if (forgingTrinket == true)
+    {
+        int upgrade = random() && 5 + 1;
+        
+        if ((answer == "shield" || answer == "Shield") && money >= 100 * shieldForge)
+        {
+            shieldForge = upgrade;
+            cout << "You got the level " << upgrade << " upgrade!" << endl;
+        }
+        
+        if ((answer == "broadsword" || answer == "Broadsword") && money >= 100 * broadswordForge)
+        {
+            money -= 100 * broadswordForge;
+            broadswordForge = upgrade;
+            cout << "You got the level " << upgrade << " upgrade!" << endl;
+            checkMoney();
+        }
+        
+        if ((answer == "knife" || answer == "Knife") && money >= 100 * knifeForge)
+        {
+            money -= 100 * shieldForge;
+            shieldForge = upgrade;
+            cout << "You got the level " << upgrade << " upgrade!" << endl;
+        }
+        
+        if ((answer == "shotgun" || answer == "Shotgun") && money >= 100 * shotgunForge)
+        {
+            money -= 100 * shotgunForge;
+            shotgunForge = upgrade;
+            cout << "You got the level " << upgrade << " upgrade!" << endl;
+            checkMoney();
+        }
+    }
+    
+    if (elementalForgingTrinket == true && (answer == "broadsword" || answer == "Broadsword" || answer == "dualSword" || answer == "DualSword"))
+    {
+        choosey:
+        cout << "Will you elementally reforge it?" << endl;
+        cin >> answer;
+        
+        if (answer != "Yes" && answer != "yes" && answer != "no" && answer != "No")
+        {
+            cout << "That is not a valid action. Please try again." << endl;
+            goto choosey;
+        }
+        
+        if (answer == "Yes" || answer == "yes")
+        {
+            element:
+            srand(time(NULL));
+            int elementy = rand() % 4 + 1;
+            
+            if (answer == "broadsword" || answer == "Broadsword")
+            {
+                if (elementy == 1 && broadswordElement != "fire")
+                {
+                    broadswordElement = "fire";
+                    cout << "Your broadsword gained the element of fire!" << endl;
+                }
+                
+                else if (elementy == 2 && broadswordElement != "water")
+                {
+                    broadswordElement = "water";
+                    cout << "Your broadsword gained the element of water!" << endl;
+                }
+                
+                else if (elementy == 3 && broadswordElement != "earth")
+                {
+                    broadswordElement = "earth";
+                    cout << "Your broadsword gained the element of earth!" << endl;
+                }
+                
+                else if (elementy == 4 && broadswordElement != "air")
+                {
+                    broadswordElement = "air";
+                    cout << "Your broadsword gained the element of air!" << endl;
+                }
+                
+                else 
+                {
+                    goto element;
+                }
+            }
+            
+            if (answer == "dualSword" || answer == "DualSword")
+            {
+                if (elementy == 1 && dualSwordElement != "fire")
+                {
+                    dualSwordElement = "fire";
+                    cout << "Your Dual Sword gained the element of fire!" << endl;
+                }
+                
+                else if (elementy == 2 && dualSwordElement != "water")
+                {
+                    dualSwordElement = "water";
+                    cout << "YourDual Sword gained the element of water!" << endl;
+                }
+                
+                else if (elementy == 3 && dualSwordElement != "earth")
+                {
+                    dualSwordElement = "earth";
+                    cout << "Your Dual Sword gained the element of earth!" << endl;
+                }
+                
+                else if (elementy == 4 && dualSwordElement != "air")
+                {
+                    dualSwordElement = "air";
+                    cout << "Your Dual Sword gained the element of air!" << endl;
+                }
+                
+                else 
+                {
+                    goto element;
+                }
+            }
+        }
+    }
+}
+ 
+void town()
+{
+    town:
+    if (questing == false)
+    {
+        cout << "What would you like to do?" << endl;
+        cout << "Adventure" << endl;
+        cout << "Heal" << endl;
+        cout << "Travel" << endl;
+        
+        if (forgingTrinket == true)
+        {
+            cout << "Reforge" << endl;
+        }
+        
+        if (currentLocation == "Zhyfrod" && forgingTrinket == true && earthStone == true && airStone == true && fireStone == true && waterStone == true)
+        {
+            cout << "Tavern" << endl;
+        }
+        
+        if (money >= 500)
+        {
+            cout << "Shop" << endl;
+        }
+        
+        if (mesedtJewel == true && ightormeldCrystal == true && gorothGem == true)
+        {
+            cout << "Tavern" << endl;
+        }
+        
+        cin >> answer;
+        
+        if (answer != "reforge" && answer != "Reforge" && answer != "tavern" && answer != "Tavern" && answer != "shop" && answer != "Shop" && answer != "adventure" && answer != "Adventure" && answer != "heal" && answer != "Heal" && answer != "travel" && answer != "Travel")
+        {
+            cout << "That is not a valid command." << endl;
+            goto town;
+        }
+        
+        if ((answer == "shop" || answer == "Shop") && money >= 500)
+        {
+            visitShop();
+            goto town;
+        }
+        
+        else if (answer == "heal" || answer == "Heal")
+        {
+            myLife = 250;
+            goto town;
+        }  
+        
+        else if (answer == "tavern" || answer == "Tavern")
+        {
+            if (forgingTrinket == true && earthStone == true && airStone == true && fireStone == true && waterStone == true)
+            {
+                cout << "On your way to the tavern, a scruffy man approaches you." << endl;
+                bsy:
+                cout << "Will you speak to him?" << endl;
+                cin >> answer;
+                
+                if (answer != "Yes" && answer != "yes" && answer != "No" && answer != "no")
+                {
+                    cout << "That is not a valid action. Please try again." << endl;
+                    goto bsy;
+                }
+                
+                if (answer == "Yes" || answer == "yes")
+                {
+                    cout << "He asks you if you want to combine your rare items to make an incredibly rare item." << endl;
+                    cheese: 
+                    cout << "Accept?" << endl;
+                    cin >> answer;
+                    
+                    if (answer != "Yes" && answer != "yes" && answer != "No" && answer != "no")
+                    {
+                        cout << "That is not a valid action. Please try again." << endl;
+                        goto cheese;
+                    }
+                    
+                    if (answer == "Yes" || answer == "yes")
+                    {
+                        mesedtJewel = false;
+                        gorothGem = false;
+                        ightormeldCrystal = false;
+                        elementalForgingTrinket = true;
+                        cout << "He took your Air Stone, Fire Stone, Water Stone, and Fire Stone, and from it, he created the ElementalForging Trinket!" << endl;
+                        cout << "You can now reforge your items to get an elemental modifier on your weapon!" << endl;
+                        goto town;
+                    }
+                    
+                    else if (answer == "No" || answer == "no")
+                    {
+                        goto town;
+                    }
+                    
+                    else 
+                    {
+                        cout << "That is not a valid action. Please try again." << endl;
+                        goto bsy;   
+                    }
+                }
+            }
+            
+            if (forgingTrinket == false && mesedtJewel == false && gorothGem == false && ightormeldCrystal == false)
+            {
+                    
+                cout << "On your way to the tavern, a scruffy man approaches you." << endl;
+                scruffy:
+                cout << "Will you speak to him?" << endl;
+                cin >> answer;
+                
+                if (answer != "Yes" && answer != "yes" && answer != "No" && answer != "no")
+                {
+                    cout << "That is not a valid action. Please try again." << endl;
+                    goto scruffy;
+                }
+                
+                if (answer == "Yes" || answer == "yes")
+                {
+                    cout << "He asks you if you want to combine your rare items to make an incredibly rare item." << endl;
+                    accept: 
+                    cout << "Accept?" << endl;
+                    cin >> answer;
+                    
+                    if (answer != "Yes" && answer != "yes" && answer != "No" && answer != "no")
+                    {
+                        cout << "That is not a valid action. Please try again." << endl;
+                        goto accept;
+                    }
+                    
+                    if (answer == "Yes" || answer == "yes")
+                    {
+                        mesedtJewel = false;
+                        gorothGem = false;
+                        ightormeldCrystal = false;
+                        forgingTrinket = true;
+                        cout << "He took your Ightormeld Crystal, Goroth Gem, and your Mesedt Jewel, and from it, he created the Forging Trinket!" << endl;
+                        cout << "You can now reforge your items to get either a degrade or an upgrade on your weapons." << endl;
+                        goto town;
+                    }
+                    
+                    else if (answer == "No" || answer == "no")
+                    {
+                        goto town;
+                    }
+                    
+                    else 
+                    {
+                        cout << "That is not a valid action. Please try again." << endl;
+                        goto scruffy;   
+                    }
+                }
+            }
+        }
+        
+        else if (answer == "travel" || answer == "Travel")
+        {
+            if (currentLocation == "Ightormeld")
+            {
+                myTurn();
+            }
+            
+            else if (currentLocation != "Ightormeld")
+            {
+                travel();
+                goto town;
+            }
+        }
+        
+        else if (answer == "reforge" || answer == "Reforge")
+        {
+            reforge();
+        }
+        
+        else if (answer == "adventure" || answer == "Adventure")
+        {
+            myTurn();
+        }
+        
+        else 
+        {
+            cout << "That is not a valid command. Please try again." << endl;
+            goto town;
+        }
+    }
+    
+    else if (questing == true && d1clear == false)
+    {
+        cout << "To begin your adventure in the ruins, enter through the doors to the main hall." << endl;
+        quest_1:
+        cin >> answer;
+            
+        if (answer != "enter" && answer != "Enter")
+        {
+            cout << "You need to enter through the doors to begin your quest." << endl;
+            goto quest_1;
+        }
+            
+        else if (answer == "enter" || answer == "Enter")
+        {
+            myTurn();
+        }
+    }
+        
+    else if (questing == true && d2clear == false && d1clear == true)
+    {
+        cout << "To begin your adventure in the temple, enter through the doors to the main hall." << endl;
+        quest_2:
+        cin >> answer;
+            
+        if (answer != "enter" && answer != "Enter")
+        {
+            cout << "You need to enter through the doors to begin your quest." << endl;
+            goto quest_2;
+        }
+            
+        else if (answer == "enter" || answer == "Enter")
+        {
+            myTurn();
+        }
+    }
+    
+    else if (questing == true && d3clear == false && d2clear == true)
+    {
+        cout << "To begin your adventure in the mines, enter through the gates to the main shaft." << endl;
+        quest_3:
+        cin >> answer;
+            
+        if (answer != "enter" && answer != "Enter")
+        {
+            cout << "You need to enter through the gates to begin your quest." << endl;
+            goto quest_3;
+        }
+            
+        else if (answer == "enter" || answer == "Enter")
+        {
+            myTurn();
+        }
+    }
+    
+    else
+    {
+        cout << "There has been an error. Please try again." << endl;
+        goto town;
+    }
+}   
+
+void spoilsOfWar()
+{                                         
+    int spoils = random() % 5 + 1;
+    switch (spoils)
+    {
+        case 1:
+        money += 10 * (enemyType);
+        cout << "You got " << 10 * enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
+        
+        if (enemyType == 20)
+        {
+            grenade += 1;
+            cout << "You got 1 grenade!" << endl;
+        }
+        experience += 20 * (enemyType);
+        levelUp();
+        break;
+        
+        case 2:
+        food += 10 * (enemyType);
+        cout << "You got " << 10 * enemyType << " food! You now have " << food << " food!" << endl;
+        
+        if (enemyType == 20)
+        {
+            grenade += 1;
+            cout << "You got 1 grenade!" << endl;
+        }
+        experience += 20 * (enemyType);
+        levelUp();
+        break;
+        
+        case 3: 
+        money += 5 * (enemyType);
+        cout << "You got " << 5*enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
+        
+        if (enemyType == 20)
+        {
+            grenade += 1;
+            cout << "You got 1 grenade!" << endl;
+        }
+        experience += 5 * (enemyType);
+        levelUp();
+        break;
+        
+        case 4:
+        shotgunBullet += 1 * (enemyType);
+        pistolBullet += 4 * (enemyType);
+        cout << "You got " << 4 * enemyType << " pistol bullets and " << 1 * enemyType << " shotgun bullets!" << endl;
+        
+        if (enemyType == 20)
+        {
+            grenade += 1;
+            cout << "You got 1 grenade!" << endl;
+        }
+        experience +=  20 * (enemyType);
+        levelUp();
+        break;
+        
+        case 5:
+        money += 15 * (enemyType);
+        cout << "You got " << 5*enemyType << " gold coins! You now have " << money << " gold coins!" << endl;
+        
+        if (enemyType == 20)
+        {
+            grenade += 1;
+            cout << "You got 1 grenade!" << endl;
+        }
+        experience += 20 * (enemyType);
+        levelUp();
+        break;
+        
+        if (enemyType == 101 && enemyLife <= 0)
+        {
+            ightormeldCrystal = true;
+            d1clear = true;
+            questing = false;
+            experience += 20  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the ruins of Ightormeld, Gakudoki, the Collector of Dreams!" << endl;
+            cout << "You got something called an 'Ightormeld Crystal.'" << endl;
+            cout << "You hear a voice resounding from the heavens..." << endl;
+            cout << "MAZE. THE MAZE BEGINS IN WARKIM." << endl;
+        }
+            
+        if (enemyType == 102 && enemyLife <= 0)
+        {
+            gorothGem = true;
+            d2clear = true;
+            questing = false;
+            experience += 25  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the temple of Goroth, Dreallade, the Reaper of Souls!" << endl;
+            cout << "You got something called an 'Goroth Gem.'" << endl;
+            cout << "You hear a voice resounding from the heavens..." << endl;
+            cout << "FROM THE MAZE COMES DRISKELANG." << endl;
+        }
+        
+        if (enemyType == 103 && enemyLife <= 0)
+        {
+            mesedtJewel = true;
+            d3clear = true;
+            questing = false;
+            experience += 30  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the mines of Mesedt, Kosami, the Bane of Life!" << endl;
+            cout << "You got something called an 'Mesedt Jewel.'" << endl;
+            cout << "You hear a voice resounding from the heavens..." << endl;
+            cout << "FROM DRISKELANG HEADS TOWARD THE BEGINNING" << endl;
+        }
+        
+        if (enemyType == 104 && enemyLife <= 0)
+        {
+            shardOne = true;
+            d4clear = true;
+            questing = false;
+            experience += 35  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the desert of Umkelu, Tinkimi, the Thief of Courage!" << endl;
+            cout << "You got something called an 'Dual Shard.'" << endl;
+            cout << "You hear a voice resounding from the heavens..." << endl;
+            cout << "FROM THERE HEAD BACK TO IGHTORMELD" << endl;
+        }
+        
+        if (enemyType == 105 && enemyLife <= 0)
+        {
+            shardTwo = true;
+            d5clear = true;
+            questing = false;
+            experience += 40  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the island of Alether, Lloquear, the Courier of Death!" << endl;
+            cout << "You got something called an 'Dual Shard.'" << endl;
+            cout << "You hear a voice resounding from the heavens..." << endl;
+            cout << "THE DESERT IN TOW" << endl;
+        }
+        
+        if (enemyType == 106 && enemyLife <= 0)
+        {
+            shardThree = true;
+            d6clear = true;
+            questing = false;
+            experience += 40  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the plains of Mosmkin, Waonow, the Gladiator of Destruction!" << endl;
+            cout << "You got something called an 'Dual Shard.'" << endl;
+            cout << "You hear a voice resounding from the heavens..." << endl;
+            cout << "YOU FEEL THE PULL OF THE TIDES" << endl;
+        }
+        
+        if (enemyType == 107 && enemyLife <= 0)
+        {
+            shardFour = true;
+            d6clear = true;
+            questing = false;
+            experience += 45  * (enemyType);
+            levelUp();
+            money += 5 * enemyType;
+            cout << "You have felled the mighty boss of the skies of Timimet, Sihodima, the Seraph of Shadows!" << endl;
+            cout << "You got something called an 'Dual Shard.'" << endl;
+            cout << "You hear a voice resounding from the heavens(yes, they still are above you)..." << endl;
+            cout << "THE CAPITAL HOLDS THE KEY" << endl;
+        }
+        
+        if (elemental == 100 && element == "water" && waterStone == false)
+        {
+            waterStone = true;
+            cout << "You got the 'Water Shard'." << endl;
+        }
+            
+        if (elemental == 100 && element == "fire" && fireStone == false)
+        {
+            fireStone = true;
+            cout << "You got the 'Fire Shard'." << endl;
+        }
+        
+        if (elemental == 100 && element == "air" && airStone == false)
+        {
+            airStone = true;
+            cout << "You got the 'Air Shard'." << endl;
+        }
+        
+        if (elemental == 100 && element == "earth" && earthStone == false)
+        {
+            earthStone = true;
+            cout << "You got the 'Earth Shard'." << endl;
+        }
+    }
+}
+  
+void gameOver()
+{
+    cout << "You have 0 life remaining. You are now dead." << endl;
+    cout << "GAME OVER!" << endl;
+    
+    if (lives > 0)
+    {
+        cout << "Continue? It will cost one of your " << lives << " live(s) left."<< endl;
+        cin >> answer;
+    
+        if (answer == "yes" || answer == "Yes")
+        {
+            lives -= 1;
+            myLife = 250;
+            int main();
+        }
+        
+        else
+        {
+            return;
+        }
+    }
+    
+    else
+    {
+        cout << "You have 0 lives remaining. Press any key then enter if you would like to continue" << endl;
+        cin >> answer;
+        
+        if (answer != " ")
+        {
+            currentLocation = "Angiru";
+            lives = 3;
+            myLife = 250;
+            int main();
+        }
+    }
+}
+
+void enemyPicker()
+{
+    repick:
+    elemental = 1;
+    srand(time(NULL));
+    int elementalChance = rand() % 100 + 1;
+    elementalChance = 100;
+    elemental = elementalChance;
+    enemyLife = 1;
+        
+    if (true) //Location Enemy Strength Decision Algorithm
+    { 
+        if (currentLocation == "Angiru")
+        {
+            srand(time(NULL));                                          
+            int enemyChooser = rand() % 5 + 1;
+            enemyType = enemyChooser;
+        }
+                
+        else if (currentLocation == "Warkim" || currentLocation == "Ightormeld" || currentLocation == "Thylas" || currentLocation == "Goroth")
+        {
+            srand(time(NULL));                                          
+            int enemyChooser = rand() % 10 + 1;
+            enemyType = enemyChooser;
+        }
+                
+        else if (currentLocation == "Driskelang" || currentLocation == "Mesedt"  || currentLocation == "Deltai" || currentLocation == "Umkelu")
+        {
+            srand(time(NULL));                                          
+            int enemyChooser = rand() % 15 + 1;
+            enemyType = enemyChooser;
+        }
+                
+        else 
+        {
+            srand(time(NULL));                                          
+            int enemyChooser = rand() % 20 + 1;
+            enemyType = enemyChooser;
+        }
+    }
+        
+    if (true) //Enemy Type Algorithm
+    { 
+        if (enemyType == 20)
+        {
+            enemy = "demon";
+            enemyLife = 400;
+        }
+            
+        else if (enemyType < 10)
+        {
+            enemy = "imp";
+            enemyLife = 10 * enemyType;
+        }
+         
+        else if (enemyType >= 10 && enemyType < 20)
+        {
+            enemy = "troll";
+            enemyLife = 20 * enemyType;
+        }
+            
+        else
+        {
+            cout << "There has been an error." << endl;
+            goto repick;
+        }
+    }
+        
+    if (elemental == 100)
+    {
+        error:
+        srand(time(NULL));                                          
+        int elements = rand() % 4 + 1;
+            
+        if (elements == 1)
+        {
+            element = "fire";
+            damage += 25;
+        }
+            
+        else if (elements == 2)
+        {
+            element = "water";
+            myDamage -= 25;
+        }
+            
+        else if (elements == 3)
+        {
+            element = "earth";
+            damage += 12;
+            myDamage -= 13;
+        }
+            
+        else if (elements == 4)
+        {
+            element = "air";
+            srand(time(NULL));                                          
+            int enemyAgility = rand() % 8 + 1;
+                    
+            if (enemyAgility == 8)
+            {
+                myDamage = 0;
+            }
+        }
+            
+        else 
+        {
+            cout << "There has been an error." << endl;
+            goto error;
+        }
+    }
+    failsafe = enemyLife;
+}
+
+void fightSequence()
+{
+    attack:
+    myTurn();
+    
+    
+    if (enemyLife <= 0)
+    {
+        if (enemyLife != -1289)
+        {
+            spoilsOfWar();
+            hoard -= 1;
+        }
+        enemyPicker();
+        
+        if (hoard == 0 && questing == false)
+        {
+            hoard = 5;
+            town();
+        }
+        
+        if (hoard == 0 && questing == true)
+        {
+            dungeonBoss();
+            fightSequence();
+        }
+        goto attack;
+    } 
+    
+    if (enemyLife > 0 && enemyType < 30)
+    {
+        enemyAttack();
+        
+        if (myLife <= 0)
+        {
+            gameOver();
+        }
+        goto attack;
+    }
+    
+    if (enemyLife > 0 && enemyType > 99)
+    {
+        bossAttack();
+        
+        if (myLife <= 0)
+        {
+            gameOver();
+        }
+        goto attack;
+    }
+} 
+
+int main()
+{
+    if (lives == 3 && play == false)
+    {
+        cout << "Welcome to the game Dual Swords: An RPG Legend." << endl;
+        cout << "If at any point the game is not recognizing your commands, realize that it can only compute single word commands." << endl;
+        cout << "To begin the game, in the town of Angiru, press any key, then enter." << endl;
+        play = true;
+        cin >> answer;
+    }
+    
+    if (answer != " ")
+    {
+        if (questing == false)
+        {
+            enemyPicker();
+            town();
+            
+            if (enemyLife <= 0)
+            {
+                enemyPicker();
+                fightSequence();
+            }
+            
+            else if (enemyLife > 0)
+            {
+                enemyAttack();
+                fightSequence();
+            }
+        }
+            
+        if (currentLocation == "Ightormeld" && questing == true)
+        { 
+            fightSequence();
+        }
+    }
+} 
