@@ -1945,25 +1945,25 @@ void myTurn()
         cout << "Run" << endl;
     }
     
-    cin >> answer;
+    convert();
     
-    if (answer != "eat" && answer != "Eat" && answer != "run" && answer != "Run" && answer != "fight" && answer != "Fight")
+    if (answer != "eat" && answer != "run" && answer != "fight")
     {
         cout << "That is not a valid command." << endl;
         goto fight;
     }
     
-    if ((answer == "eat" || answer == "Eat") && food >= 20)
+    if (answer == "eat" && food >= 20)
     {
         eat();
     }
     
-    else if ((answer == "run" || answer == "Run") && food >= 20)
+    else if (answer == "run" && food >= 10)
     {
         runAway();
     }
     
-    else if (answer == "fight" || answer == "Fight")
+    else if (answer == "fight")
     {
         chooseWeapon();
     }
@@ -2255,7 +2255,7 @@ void town()
                     cout << "Accept?" << endl;
                     convert();
                     
-                    if  answer != "yes" && answer != "no")
+                    if  (answer != "yes" && answer != "no")
                     {
                         cout << "That is not a valid action. Please try again." << endl;
                         goto accept;
@@ -2280,7 +2280,7 @@ void town()
                     else 
                     {
                         cout << "That is not a valid action. Please try again." << endl;
-                        goto scruffy;   
+                        goto accept;   
                     }
                 }
             }
@@ -2798,7 +2798,9 @@ int main()
             if (enemyLife <= 0)
             {
                 enemyPicker();
+                spoilsOfWar();
                 fightSequence();
+                
             }
             
             else if (enemyLife > 0)
