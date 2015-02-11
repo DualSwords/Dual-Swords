@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <cstdio>
+#include <fstream>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ int mazeStep = 0;
 
 // This is used to tell how much money there is
 
-int money = 10000;
+int money;
 
 // This is used to tell what kind of enemy it is
 
@@ -63,6 +64,13 @@ int warriorExperience;
 int archerExperience;
 int wizardExperience;
 int druidExperience;
+
+// These are the variable I use to store the experience gained from a fight
+
+int warriorNew;
+int archerNew;
+int wizardNew;
+int druidNew;
 
 // These are the variables I use to store the different levels for all of the classes
 
@@ -297,10 +305,6 @@ bool play = false;
 
 bool quit = false;
 
-// This boolean is used to tell whether or not the player is fighting
-
-bool adventure = false;
-
 
 void help()
 {
@@ -328,6 +332,12 @@ void convert()
         {
            answer[i] = char(((int)answer[i]) + 32);
         }
+    }
+    
+    if (answer == "exit" || answer == "quit")
+    {
+        quit = true;;
+        return;
     }
     
     if (answer == "help")
@@ -1012,6 +1022,11 @@ void classType()
     cout << "What class will you be? Will you be a warrior, an archer, a druid, or a wizard?" << endl;
     convert();
     classGame = answer;
+    
+    if (quit == true)
+    {
+        return;
+    }
     
     if (classGame != "archer" && classGame != "druid" && classGame != "wizard" && classGame != "warrior")
     {
@@ -2018,22 +2033,22 @@ void experience()
     
     if (classGame == "warrior")
     {
-        warriorExperience = experience * enemyType;
+        warriorNew = experience * enemyType;
     }
     
     if (classGame == "archer")
     {
-        archerExperience = experience * enemyType;
+        archerNew = experience * enemyType;
     }
     
     if (classGame == "wizard")
     {
-        wizardExperience = experience * enemyType;
+        wizardNew = experience * enemyType;
     }
     
     if (classGame == "druid")
     {
-        druidExperience = experience * enemyType;
+        druidNew = experience * enemyType;
     }
 }
 
@@ -2042,8 +2057,10 @@ void levelUp()
     if (classGame == "warrior")
     {
         cout << endl;
-        cout << "You got " << warriorExperience << " experience from the fight." << endl;
-    
+        cout << "You got " << warriorNew << " experience from the fight." << endl;
+        warriorExperience += warriorNew;
+        warriorNew = 0;
+        
         if (warriorExperience >= warriorRequired)
         {
             warriorExperience -= warriorRequired;
@@ -2062,8 +2079,11 @@ void levelUp()
     
     if (classGame == "archer")
     {
-        cout << "You got " << archerExperience << " experience from the fight." << endl;
-    
+        cout << endl;
+        cout << "You got " << archerNew << " experience from the fight." << endl;
+        archerExperience += archerNew;
+        archerNew = 0;
+        
         if (archerExperience >= archerRequired)
         {
             archerExperience -= archerRequired;
@@ -2082,8 +2102,11 @@ void levelUp()
     
     if (classGame == "wizard")
     {
-        cout << "You got " << wizardExperience << " experience from the fight." << endl;
-         
+        cout << endl;
+        cout << "You got " << wizardNew << " experience from the fight." << endl;
+        wizardExperience += wizardNew;
+        wizardNew = 0;
+        
         if (wizardExperience >= wizardRequired)
         {
             wizardExperience -= wizardRequired;
@@ -2102,8 +2125,11 @@ void levelUp()
     
     if (classGame == "druid")
     {
-        cout << "You got " << druidExperience << " experience from the fight." << endl;
-    
+        cout << endl;
+        cout << "You got " << druidNew << " experience from the fight." << endl;
+        druidExperience += druidNew;
+        druidNew = 0;
+        
         if (druidExperience >= druidRequired)
         {
             druidExperience -= druidRequired;
@@ -2248,7 +2274,7 @@ void visitShop()
     cout << "Weapon Shop" << endl;
     cout << "Upgrade Shop" << endl;
     cout << "Food Shop" << endl;
-    cout << "Town (you can go back to town at any shop)";
+    cout << "Town (you can go back to town at any shop)" << endl;
     convert();
     
     if (answer != "arrow shop" && answer != "weapon shop" && answer != "upgrade shop" && answer != "food shop" && answer != "town" && answer != "spell shop" && answer != "armor shop")
@@ -2257,6 +2283,10 @@ void visitShop()
         goto main_shop;
     }
     
+    if (answer == "town")
+    {
+        return;
+    }
         
     if (answer == "food shop")
     {
@@ -2399,6 +2429,11 @@ void visitShop()
         cout << "What will you buy?" << endl;
         convert();
         
+        if (answer == "town")
+        {
+            return;
+        }
+        
         if (classGame == "warrior")
         {
             if (answer == "short sword")
@@ -2515,6 +2550,12 @@ void visitShop()
                     cout << "You do not have enough money to buy this." << endl;
                     goto upgrade_shop;
                 }
+            }
+            
+            else 
+            {
+                cout << "That is an invalid weapon." << endl;
+                goto upgrade_shop;
             }
         }
         
@@ -2635,6 +2676,12 @@ void visitShop()
                     goto upgrade_shop;
                 }
             }
+            
+            else 
+            {
+                cout << "That is an invalid weapon." << endl;
+                goto upgrade_shop;
+            }
         }
         
         if (classGame == "wizard")
@@ -2754,6 +2801,12 @@ void visitShop()
                     goto upgrade_shop;
                 }
             }
+            
+            else 
+            {
+                cout << "That is an invalid weapon." << endl;
+                goto upgrade_shop;
+            }
         }
         
         if (classGame == "druid")
@@ -2871,16 +2924,17 @@ void visitShop()
                     goto upgrade_shop;
                 }
             }
-        }
-      
-        else if (answer == "town")
-        {
-            int main();
+            
+            else 
+            {
+                cout << "That is an invalid weapon." << endl;
+                goto upgrade_shop;
+            }
         }
         
         else
         {
-            cout << "That is an invalid answer. Please try again." << endl;
+            cout << "That is an invalid weapon. Please try again." << endl;
             goto upgrade_shop;
         }
     }
@@ -2995,6 +3049,13 @@ void visitShop()
                         cout << "You have already bought the broadsword." << endl;
                         cout << endl;        
                     }
+                    
+                    if (broadsword == false && money >= 8000)
+                    {
+                        broadsword = true;
+                        money -= 8000;
+                        cout << "You have bought the broadsword!" << endl;
+                    }
                 }
                 
                 weapon:
@@ -3026,7 +3087,7 @@ void visitShop()
             
             if (answer == "town")
             {
-                int main();
+                return;
             }
         }
         
@@ -3116,7 +3177,7 @@ void visitShop()
             
             if (answer == "town")
             {
-                int main();
+                return;
             }
         }
         
@@ -3207,7 +3268,7 @@ void visitShop()
             
             if (answer == "town")
             {
-                int main();
+                return;
             }
         }
         
@@ -3298,7 +3359,7 @@ void visitShop()
             
             if (answer == "town")
             {
-                int main();
+                return;
             }
         }
     }
@@ -3356,6 +3417,11 @@ void visitShop()
                 cout << "That is an invalid answer." << endl;
                 cout << endl;
                 goto armor_shop;
+            }
+            
+            if (answer == "town")
+            {
+                return;
             }
             
             if (answer == "helm")
@@ -3575,12 +3641,13 @@ void visitShop()
             
             else if (money < quantity * 4)
             {
-                cout << "You are out of money." << endl;
-                int main();
+                cout << "You do not have enough money to buy " << quantity << " arrows. You can only buy " << money / 4 << " arrows." << endl;
+                return;
             }
+            
             else 
             {
-                cout << "That is either an invalid amount, or you are out of money." << endl;
+                cout << "That is an invalid amount." << endl;
                 goto arrow_shop;
             }
         }
@@ -3786,7 +3853,7 @@ void visitShop()
             
             if (answer == "town")
             {
-                int main();
+                return;
             }
             
             else 
@@ -3821,9 +3888,8 @@ void ightormeld()
     if (answer == "quest")
     {
         hoard = 15;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -3858,9 +3924,8 @@ void goroth()
     if (answer == "quest")
     {
         hoard = 15;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -3895,9 +3960,8 @@ void mesedt()
     if (answer == "quest")
     {
         hoard = 20;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -3932,9 +3996,8 @@ void umkelu()
     if (answer == "quest")
     {
         hoard = 25;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -3969,9 +4032,8 @@ void alether()
     if (answer == "quest")
     {
         hoard = 30;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -4006,9 +4068,8 @@ void mosmkin()
     if (answer == "quest")
     {
         hoard = 35;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -4043,9 +4104,8 @@ void tinimet()
     if (answer == "quest")
     {
         hoard = 40;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -4080,9 +4140,8 @@ void lair()
     if (answer == "quest")
     {
         hoard = 50;
-        adventure = true;
         questing = true;
-        int main();
+        return;
     }
 
     else if (answer == "travel")
@@ -4610,7 +4669,7 @@ void reforge()
     
     if (answer == "town")
     {
-        int main();
+        return;
     }
     
     if (forgingTrinket == true)
@@ -6017,7 +6076,6 @@ void spoilsOfWar()
         if (enemyType == 53 && enemyLife <= 0)
         {
             currentLocation = "Deltai";
-            adventure = false;
             shardOne = true;
             d4clear = true;
             questing = false;
@@ -6035,7 +6093,6 @@ void spoilsOfWar()
         if (enemyType == 54 && enemyLife <= 0)
         {
             currentLocation = "Kinoll-rad";
-            adventure = false;
             shardTwo = true;
             d5clear = true;
             questing = false;
@@ -6053,7 +6110,6 @@ void spoilsOfWar()
         if (enemyType == 55 && enemyLife <= 0)
         {
             currentLocation = "Agegar";
-            adventure = false;
             shardThree = true;
             d6clear = true;
             questing = false;
@@ -6071,7 +6127,6 @@ void spoilsOfWar()
         if (enemyType == 56 && enemyLife <= 0)
         {
             currentLocation = "Ryathine";
-            adventure = false;
             shardFour = true;
             d7clear = true;
             questing = false;
@@ -6089,7 +6144,6 @@ void spoilsOfWar()
         if (enemyType == 57 && enemyLife <= 0)
         {
             currentLocation = "Zhyfrod";
-            adventure = false;
             d8clear = true;
             questing = false;
             dragonQuest = false;
@@ -6118,105 +6172,6 @@ void spoilsOfWar()
         }
     }
 }
-
-void town()
-{
-    town:
-    if (questing == false)
-    {
-        cout << "What would you like to do?" << endl;
-        cout << endl;
-        cout << "Adventure" << endl;
-        cout << "Heal" << endl;
-        cout << "Travel" << endl;
-        
-        if (forgingTrinket == true)
-        {
-            cout << "Reforge" << endl;
-        }
-        
-        if (currentLocation == "Zhyfrod")
-        {
-            cout << "Tavern" << endl;
-        }
-        
-        if (money >= 500)
-        {
-            cout << "Shop" << endl;
-        }
-        
-        if (currentLocation == "Thylas")
-        {
-            cout << "Cathedral" << endl;
-        }
-        convert();
-        
-        if (answer != "cathedral" && answer != "reforge" && answer != "tavern"  && answer != "shop"  && answer != "adventure" && answer != "heal" && answer != "travel")
-        {
-            cout << "That is not a valid command." << endl;
-            goto town;
-        }
-        
-        if (answer == "cathedral" && currentLocation == "Thylas")
-        {
-            cout << "After a short sermon, you light a candle and leave the cathedral." << endl;
-            goto town;
-        }
-        
-        if (answer == "shop" && money >= 500)
-        {
-            visitShop();
-            goto town;
-        }
-        
-        else if (answer == "heal")
-        {
-            myLife = maxLife;
-            cout << "You have been healed to " << maxLife << "." << endl;
-            cout << endl;
-            goto town;
-        }  
-        
-        else if (answer == "tavern")
-        {
-            tavern();
-        }
-        
-        else if (answer == "travel")
-        {
-            travel();
-            goto town;
-        }
-        
-        else if (answer == "reforge")
-        {
-            reforge();
-        }
-        
-        else if (answer == "adventure")
-        {
-            adventure = true;
-            int main();
-        }
-        
-        else 
-        {
-            cout << "That is not a valid command. Please try again." << endl;
-            goto town;
-        }
-    }
-    
-    if (questing == true)
-    {
-        int main();
-    }
-    
-    else
-    {
-        cout << "There has been an error. Please try again." << endl;
-        goto town;
-    }
-} 
 
 void gameOver()
 {
@@ -6367,9 +6322,8 @@ void fightSequence()
         
         if (hoard == 0 && questing == false)
         {
-            adventure = false;
             hoard = 5;
-            town();
+            return;
         }
         
         if (hoard == 0 && questing == true)
@@ -6402,6 +6356,108 @@ void fightSequence()
     }
 } 
 
+void town()
+{
+    town:
+    if (quit == true)
+    {
+        return;
+    }
+    
+    if (questing == false)
+    {
+        cout << "What would you like to do?" << endl;
+        cout << endl;
+        cout << "Adventure" << endl;
+        cout << "Heal" << endl;
+        cout << "Travel" << endl;
+        
+        if (forgingTrinket == true)
+        {
+            cout << "Reforge" << endl;
+        }
+        
+        if (currentLocation == "Zhyfrod")
+        {
+            cout << "Tavern" << endl;
+        }
+        
+        if (money >= 500)
+        {
+            cout << "Shop" << endl;
+        }
+        
+        if (currentLocation == "Thylas")
+        {
+            cout << "Cathedral" << endl;
+        }
+        convert();
+        
+        if (answer != "cathedral" && answer != "reforge" && answer != "tavern"  && answer != "shop"  && answer != "adventure" && answer != "heal" && answer != "travel")
+        {
+            cout << "That is not a valid command." << endl;
+            goto town;
+        }
+        
+        if (answer == "cathedral" && currentLocation == "Thylas")
+        {
+            cout << "After a short sermon, you light a candle and leave the cathedral." << endl;
+            goto town;
+        }
+        
+        if (answer == "shop" && money >= 500)
+        {
+            visitShop();
+            goto town;
+        }
+        
+        else if (answer == "heal")
+        {
+            myLife = maxLife;
+            cout << "You have been healed to " << maxLife << "." << endl;
+            cout << endl;
+            goto town;
+        }  
+        
+        else if (answer == "tavern")
+        {
+            tavern();
+        }
+        
+        else if (answer == "travel")
+        {
+            travel();
+            goto town;
+        }
+        
+        else if (answer == "reforge")
+        {
+            reforge();
+        }
+        
+        else if (answer == "adventure")
+        {
+            fightSequence();
+        }
+        
+        else
+        {
+            cout << "That is not a valid command. Please try again." << endl;
+            goto town;
+        }
+    }
+    
+    if (questing == true)
+    {
+        fightSequence();
+    }
+    
+    else
+    {
+        goto town;
+    }
+} 
+
 int main()
 {
     if (quit == true)
@@ -6426,10 +6482,5 @@ int main()
     {
         enemyPicker();	
         town();
-    }
-        
-    if (adventure == true || questing == true)
-    {
-        fightSequence();
     }
 }
